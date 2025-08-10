@@ -1,0 +1,132 @@
+[
+  {
+    "timestamp": "2025-08-09T16:07:40.217711",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.088340946118849e-05,
+    "avg_emissions": 6.176681892237697e-06,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "# Python example code\nimport time\nimport math\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n   ..."
+  },
+  {
+    "timestamp": "2025-08-09T21:23:00.161834",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.5943693911632986e-05,
+    "avg_emissions": 7.188738782326597e-06,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "# Python example code\nimport time\nimport math\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n   ..."
+  },
+  {
+    "timestamp": "2025-08-09T21:57:39.826591",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.6184041556046023e-05,
+    "avg_emissions": 7.2368083112092045e-06,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "# Python example code\nimport time\nimport math\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n   ..."
+  },
+  {
+    "timestamp": "2025-08-09T21:59:11.322680",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.662863295558368e-05,
+    "avg_emissions": 7.325726591116736e-06,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "# Python example code\nimport time\nimport math\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n   ..."
+  },
+  {
+    "timestamp": "2025-08-09T22:08:26.232689",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.636951527764461e-05,
+    "avg_emissions": 7.273903055528923e-06,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "# Python example code\nimport time\nimport math\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n   ..."
+  },
+  {
+    "timestamp": "2025-08-09T22:08:49.594910",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.7230732943657e-05,
+    "avg_emissions": 7.4461465887314e-06,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "# Python example code\nimport time\nimport math\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n   ..."
+  },
+  {
+    "timestamp": "2025-08-09T22:09:43.822914",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.604368766620675e-05,
+    "avg_emissions": 7.208737533241349e-06,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "# Python example code\nimport time\nimport math\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n   ..."
+  },
+  {
+    "timestamp": "2025-08-09T22:13:40.582846",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.60724023964132e-05,
+    "avg_emissions": 7.21448047928264e-06,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "# Python example code\nimport time\nimport math\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n   ..."
+  },
+  {
+    "timestamp": "2025-08-09T22:15:28.627804",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.668055646696118e-05,
+    "avg_emissions": 7.3361112933922365e-06,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "# Python example code\nimport time\nimport math\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n   ..."
+  },
+  {
+    "timestamp": "2025-08-09T22:32:23.824179",
+    "language": "javascript",
+    "repeat": 5,
+    "total_emissions": 4.2312911728674644e-06,
+    "avg_emissions": 8.462582345734929e-07,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "// JavaScript example code\nfunction fibonacci(n) {\n    if (n <= 1) return n;\n    return fibonacci(n-..."
+  },
+  {
+    "timestamp": "2025-08-10T13:19:15.916750",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.957956052987229e-06,
+    "avg_emissions": 7.915912105974459e-07,
+    "successful_runs": 0,
+    "failed_runs": 5,
+    "code_preview": "# Python example code\nimport time\nimport math\n\n\n\n# Test\nfor i in range(10):\n    print(f\"Fibonacci({i..."
+  },
+  {
+    "timestamp": "2025-08-10T13:23:17.001882",
+    "language": "cpp",
+    "repeat": 5,
+    "total_emissions": 3.051779504735264e-05,
+    "avg_emissions": 6.103559009470528e-06,
+    "successful_runs": 0,
+    "failed_runs": 5,
+    "code_preview": "// C++ example code\n#include <iostream>\n#include <chrono>\n#include <thread>\n\nint fibonacci(int n) {\n..."
+  },
+  {
+    "timestamp": "2025-08-10T13:31:30.695173",
+    "language": "python",
+    "repeat": 5,
+    "total_emissions": 3.838532455590681e-06,
+    "avg_emissions": 7.677064911181362e-07,
+    "successful_runs": 5,
+    "failed_runs": 0,
+    "code_preview": "print(\"asd\")"
+  }
+]

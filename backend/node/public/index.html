@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carbon Tracker</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; max-width: 600px; margin: auto; }
+    input, button, textarea, select {
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #0f766e;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #115e59;
+    }
+    #result {
+      margin-top: 2rem;
+      background-color: #f0fdfa;
+      padding: 1rem;
+      border: 1px solid #ccfbf1;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌍 Carbon Tracker</h1>
+  <p>HTTP isteklerinin CO₂ salınımını hesapla.</p>
+
+  <input type="text" id="url" placeholder="Örn: https://jsonplaceholder.typicode.com/posts" />
+  
+  <select id="method">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+  </select>
+
+  <input type="number" id="repeat" placeholder="Kaç kez çalıştırılsın?" value="1" min="1" />
+
+  <textarea id="payload" placeholder='POST verisi (JSON)' rows="5"></textarea>
+
+  <button onclick="calculate()">CO₂ Hesapla</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function calculate() {
+      const url = document.getElementById("url").value;
+      const method = document.getElementById("method").value;
+      const repeat = parseInt(document.getElementById("repeat").value);
+      const payload = document.getElementById("payload").value;
+      const resDiv = document.getElementById("result");
+
+      resDiv.innerHTML = "⏳ Hesaplanıyor...";
+
+      try {
+        const response = await fetch("/calculate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            url,
+            method,
+            repeat,
+            payload: payload ? JSON.parse(payload) : null
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          resDiv.innerHTML = `❌ Hata: ${data.error}`;
+        } else {
+          resDiv.innerHTML = `
+            🔁 İstek sayısı: ${data.repeat}<br/>
+            🌍 Sunucu yeşil mi? <strong>${data.isGreen ? "EVET ✅" : "HAYIR ❌"}</strong><br/>
+            📦 Veri boyutu: ${(data.totalBytes / 1024).toFixed(2)} KB<br/>
+            🌱 CO₂ Tahmini: <strong>${data.estimatedCO2.toFixed(4)} gram</strong>
+          `;
+        }
+      } catch (err) {
+        resDiv.innerHTML = `❌ İstek gönderilemedi: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
