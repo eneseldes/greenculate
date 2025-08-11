@@ -1,0 +1,295 @@
+/* Kök */
+.json-parsing-panel {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  /* Card container (panel) */
+  .jp__card {
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 32px;
+    border: 1px solid #dcfce7;
+  }
+}
+
+/* Two-column area */
+.jp__flex {
+  display: flex;
+  gap: 24px;
+}
+
+/* Sidebar */
+.jp__sidebar {
+  width: 300px;
+}
+
+.jp__mb-24 {
+  margin-bottom: 24px;
+}
+
+.jp__h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 12px 0;
+}
+
+/* Info blocks */
+.jp__col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.jp__info {
+  background: #f3f4f6;
+  padding: 12px;
+  border-radius: 2px;
+  border: 1px solid #e5e7eb;
+}
+
+.jp__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.jp__icon {
+  font-size: 16px;
+  line-height: 1;
+}
+.jp__icon--green {
+  color: #059669;
+}
+.jp__icon--blue {
+  color: #2563eb;
+}
+.jp__icon--purple {
+  color: #9333ea;
+}
+
+.jp__info-title {
+  margin: 0;
+  font-weight: 600;
+  color: #374151;
+}
+.jp__info-desc {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Inputs & labels */
+.jp__label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.jp__input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 2px;
+  font-size: 16px;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+/* Submit button */
+.jp__btn {
+  width: 100%;
+  color: #fff;
+  font-weight: 700;
+  padding: 16px 24px;
+  border-radius: 2px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  &.is-primary {
+    background: linear-gradient(135deg, #22c55e 0%, #059669 100%);
+  }
+  &.is-loading {
+    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+    cursor: not-allowed;
+  }
+
+  /* ekstra: js hover’a ek olarak css ile de verelim */
+  &:not(.is-loading):hover {
+    background: linear-gradient(135deg, #16a34a 0%, #047857 100%);
+    transform: scale(1.02);
+  }
+}
+
+/* Editor */
+.jp__editor-wrap {
+  flex: 1;
+}
+.jp__editor {
+  border: 2px solid #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.jp__cm {
+  font-size: 14px;
+  font-family: monospace;
+}
+
+/* Result panel */
+.jp__result {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border-radius: 2px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  border: 1px solid #bbf7d0;
+}
+
+.jp__result-head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.jp__result-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #166534;
+  margin: 0;
+}
+
+/* Pills */
+.jp__pill {
+  padding: 4px 12px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 500;
+
+  &--amber {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  &--blue {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+}
+
+/* Grid of parser cards */
+.jp__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.jp__parser-card {
+  background: #fff;
+  border-radius: 2px;
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dcfce7;
+}
+
+.jp__parser-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.jp__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &--green {
+    background: #d1fae5;
+  }
+  &--blue {
+    background: #dbeafe;
+  }
+  &--purple {
+    background: #f3e8ff;
+  }
+}
+.jp__emoji {
+  font-size: 20px;
+}
+
+.jp__parser-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #166534;
+  margin: 0;
+}
+.jp__parser-caption {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 4px 0 0 0;
+}
+
+.jp__stats {
+  display: grid;
+  gap: 12px;
+}
+.jp__muted {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 4px 0;
+}
+.jp__value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #166534;
+  margin: 0;
+}
+
+/* Error */
+.jp__error {
+  background: #fee2e2;
+  border-radius: 2px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #fecaca;
+}
+
+.jp__err-ico {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fef2f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.jp__err-emoji {
+  font-size: 20px;
+  color: #dc2626;
+}
+
+.jp__err-title {
+  font-size: 14px;
+  color: #dc2626;
+  font-weight: 600;
+  margin: 0;
+}
+.jp__err-text {
+  font-size: 16px;
+  color: #7f1d1d;
+  margin: 0;
+}

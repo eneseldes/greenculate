@@ -33,14 +33,57 @@ async function isGreenHost(hostname) {
   }
 }
 
+// İstatistikleri getir
+app.get("/request/stats", (req, res) => {
+  try {
+    const data = fs.readFileSync(historyPath);
+    const history = JSON.parse(data);
+    
+    // Kütüphane bazlı istatistikler
+    const stats = history.reduce((acc, entry) => {
+      if (!acc[entry.library]) {
+        acc[entry.library] = {
+          library: entry.library,
+          total_requests: 0,
+          total_emissions: 0,
+          green_requests: 0,
+          total_bytes: 0
+        };
+      }
+      
+      acc[entry.library].total_requests += entry.repeat;
+      acc[entry.library].total_emissions += entry.estimatedCO2;
+      acc[entry.library].total_bytes += entry.totalBytes;
+      if (entry.isGreen) acc[entry.library].green_requests += entry.repeat;
+      
+      return acc;
+    }, {});
+    
+    // İstatistikleri dizi formatına çevir ve yüzdeleri hesapla
+    const by_library = Object.values(stats).map(stat => ({
+      ...stat,
+      avg_emissions: stat.total_emissions / stat.total_requests,
+      green_server_percentage: ((stat.green_requests / stat.total_requests) * 100).toFixed(1),
+      avg_response_time: 0 // Bu veriyi henüz toplamıyoruz
+    }));
+    
+    res.json({ by_library });
+  } catch (error) {
+    console.error("İstatistik hatası:", error);
+    res.json({ by_library: [] });
+  }
+});
+
 // Karbon salınımı hesaplama ve kayıt
-app.post("/calculate", async (req, res) => {
-  const { url, method, repeat, payload } = req.body;
+app.post("/request", async (req, res) => {
+  const { url, method, headers, body, library = 'axios', repeat = 1 } = req.body;
 
   try {
-    console.log("Gelen istek:", { url, method, repeat, payload });
+    console.log("Gelen istek:", { url, method, headers, body, library, repeat });
     
     let totalBytes = 0;
+    let lastResponseText = '';
+    let lastResponseHeaders = {};
     const { hostname } = new URL(url);
     const isGreen = await isGreenHost(hostname);
 
@@ -49,18 +92,25 @@ app.post("/calculate", async (req, res) => {
     for (let i = 0; i < repeat; i++) {
       const options = {
         method,
-        headers: { "Content-Type": "application/json" }
+        headers: headers || { "Content-Type": "application/json" }
       };
 
-      if (method === "POST" && payload) {
-        options.body = JSON.stringify(payload);
+      if (body) {
+        options.body = typeof body === 'string' ? body : JSON.stringify(body);
       }
 
       console.log(`${i + 1}. istek gönderiliyor...`);
       const response = await fetch(url, options);
-      const body = await response.text();
-      const responseBytes = Buffer.byteLength(body);
+      const responseText = await response.text();
+      const responseBytes = Buffer.byteLength(responseText);
       totalBytes += responseBytes;
+
+      // Son yanıtı sakla
+      if (i === repeat - 1) {
+        lastResponseText = responseText;
+        lastResponseHeaders = Object.fromEntries(response.headers.entries());
+      }
+
       console.log(`${i + 1}. istek tamamlandı, boyut: ${responseBytes} bytes`);
     }
 
@@ -88,6 +138,7 @@ app.post("/calculate", async (req, res) => {
       timestamp: new Date().toISOString(),
       url,
       method,
+      library,
       repeat,
       isGreen,
       totalBytes,
@@ -106,10 +157,14 @@ app.post("/calculate", async (req, res) => {
     fs.writeFileSync(historyPath, JSON.stringify(history.slice(-50), null, 2));
 
     res.json({
-      totalBytes,
-      estimatedCO2: estimatedCO2Grams,
-      repeat,
-      isGreen
+      success: true,
+      status: 200,
+      execution_time: 0, // Bu veriyi henüz ölçmüyoruz
+      emissions: estimatedCO2Grams,
+      total_bytes: totalBytes,
+      is_green_hosting: isGreen,
+      headers: lastResponseHeaders,
+      body: lastResponseText
     });
   } catch (error) {
     console.error("Hata:", error);
@@ -118,7 +173,7 @@ app.post("/calculate", async (req, res) => {
 });
 
 // Geçmiş verileri al
-app.get("/history", (req, res) => {
+app.get("/request/history", (req, res) => {
   try {
     const data = fs.readFileSync(historyPath);
     res.json(JSON.parse(data));
@@ -130,4 +185,11 @@ app.get("/history", (req, res) => {
 // Sunucuyu başlat
 app.listen(port, () => {
   console.log(`🚀 Sunucu çalışıyor: http://localhost:${port}`);
+  
+  // Data dizinini oluştur
+  const dataDir = path.join(__dirname, "data");
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir);
+    console.log("📁 Data dizini oluşturuldu");
+  }
 });

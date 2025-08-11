@@ -1,3 +1,4 @@
+# Mevcut db_manager.py içeriği
 import sqlite3
 import os
 import platform
@@ -7,7 +8,7 @@ from difflib import SequenceMatcher
 import re
 
 
-DB_PATH = os.path.join(os.path.dirname(__file__), 'code-execution-reports.db')
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', 'code-execution-reports.db')
 
 def normalize_code(code):
     """Kodu normalize eder (boşlukları ve gereksiz karakterleri temizler)"""

@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 # Veritabanı dosyasının yolu
-DB_PATH = os.path.join(os.path.dirname(__file__), 'code-execution-reports.db')
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', 'code-execution-reports.db')
 
 def init_db():
     # Veritabanı bağlantısı oluştur

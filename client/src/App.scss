@@ -1,314 +1,47 @@
-// App.scss - Main application styles
+/* App.scss */
 
-// Variables
-$primary-green: #059669;
-$primary-green-light: #22c55e;
-$primary-green-dark: #047857;
-$secondary-green: #16a34a;
-$background-green: #f0fdf4;
-$background-green-light: #d1fae5;
-$background-green-lighter: #bbf7d0;
-$text-dark: #1f2937;
-$text-gray: #374151;
-$text-light-gray: #6b7280;
-$border-color: #e5e7eb;
-$border-green: #dcfce7;
-$white: #ffffff;
-$shadow-light: rgba(0, 0, 0, 0.1);
-$shadow-medium: rgba(0, 0, 0, 0.04);
+$bg-start: #f0fdf4;
+$bg-end:   #d1fae5;
+$text:     #1f2937;
+$greens-700: #166534;
+$greens-500: #16a34a;
 
-// Mixins
-@mixin gradient-green {
-  background: linear-gradient(135deg, $primary-green-light 0%, $primary-green 100%);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@mixin gradient-green-hover {
-  background: linear-gradient(135deg, $secondary-green 0%, $primary-green-dark 100%);
+body {
+  box-sizing: border-box;
+  background: linear-gradient(135deg, $bg-start 0%, $bg-end 100%);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
 }
 
-@mixin card-style {
-  background: $white;
-  border-radius: 1rem;
-  box-shadow: 0 20px 25px -5px $shadow-light, 0 10px 10px -5px $shadow-medium;
-  padding: 2rem;
-  border: 1px solid $border-green;
-}
+main {
+  width: 90%;
+  margin: 2rem auto;
 
-@mixin button-style {
-  width: 100%;
-  @include gradient-green;
-  color: $white;
-  font-weight: bold;
-  padding: 1rem 1.5rem;
-  border-radius: 0.75rem;
-  font-size: 1.125rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 10px 15px -3px $shadow-light;
-
-  &:hover {
-    @include gradient-green-hover;
-    transform: scale(1.02);
-  }
-}
-
-@mixin input-style {
-  width: 100%;
-  padding: 1rem;
-  border: 2px solid $border-color;
-  border-radius: 0.75rem;
-  font-size: 1rem;
-  color: $text-gray;
-  transition: all 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: $primary-green;
-    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
-  }
-}
-
-@mixin label-style {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: $text-gray;
-  margin-bottom: 0.5rem;
-}
-
-// Main app container
-.app {
-  min-height: 100vh;
-  background: linear-gradient(135deg, $background-green 0%, $background-green-light 100%);
-  color: $text-dark;
-  font-family: system-ui, -apple-system, sans-serif;
-  padding: 1.5rem;
-
-  &__container {
-    max-width: 1024px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  &__header {
+  header {
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-
-    h1 {
-      font-size: 2.25rem;
-      font-weight: bold;
-      color: #166534;
-      margin-bottom: 0.5rem;
+    gap: 8px;
+  
+    .header-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: $greens-700;
     }
-
-    p {
-      font-size: 1.125rem;
-      color: $secondary-green;
+  
+    .header-subtitle {
+      font-size: 18px;
       font-weight: 500;
+      color: $greens-500;
     }
   }
 
-  &__tabs {
-    @include card-style;
-    padding: 0.5rem;
-    box-shadow: 0 4px 6px -1px $shadow-light;
-
-    &-container {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    &-button {
-      flex: 1;
-      padding: 1rem 1.5rem;
-      border-radius: 0.75rem;
-      font-size: 1rem;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-
-      &.active {
-        @include gradient-green;
-        color: $white;
-      }
-
-      &.inactive {
-        background: #f3f4f6;
-        color: $text-gray;
-      }
-    }
-  }
-
-  &__form {
-    @include card-style;
-
-    &-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    &-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-    }
-
-    &-group {
-      .label {
-        @include label-style;
-      }
-
-      .input {
-        @include input-style;
-      }
-
-      .select {
-        @include input-style;
-        background-color: $white;
-      }
-
-      .textarea {
-        @include input-style;
-        font-family: monospace;
-        resize: vertical;
-      }
-    }
-
-    &-submit {
-      padding-top: 1rem;
-
-      .button {
-        @include button-style;
-      }
-    }
-  }
-
-  &__results {
-    background: linear-gradient(135deg, $background-green-lighter 0%, $background-green-light 100%);
-    border-radius: 1rem;
-    box-shadow: 0 10px 15px -3px $shadow-light;
-    padding: 2rem;
-    border: 1px solid $background-green-lighter;
-
-    &-title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #166534;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    &-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-    }
-
-    &-card {
-      background: $white;
-      border-radius: 0.75rem;
-      padding: 1.5rem;
-      box-shadow: 0 4px 6px -1px $shadow-light;
-      border: 1px solid $border-green;
-
-      &-content {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
-
-      &-icon {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.25rem;
-
-        &.blue {
-          background-color: #dbeafe;
-          color: #2563eb;
-        }
-
-        &.green {
-          background-color: #dcfce7;
-          color: $secondary-green;
-        }
-
-        &.purple {
-          background-color: #f3e8ff;
-          color: #9333ea;
-        }
-
-        &.light-green {
-          background-color: #d1fae5;
-          color: $primary-green;
-        }
-      }
-
-      &-text {
-        .label {
-          font-size: 0.875rem;
-          color: $text-light-gray;
-        }
-
-        .value {
-          font-size: 1.25rem;
-          font-weight: bold;
-          color: $text-dark;
-
-          &.success {
-            color: $secondary-green;
-            display: flex;
-            align-items: center;
-
-            .checkmark {
-              margin-left: 0.25rem;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-// Responsive design
-@media (max-width: 768px) {
-  .app {
-    padding: 1rem;
-
-    &__header {
-      h1 {
-        font-size: 1.875rem;
-      }
-
-      p {
-        font-size: 1rem;
-      }
-    }
-
-    &__form {
-      padding: 1.5rem;
-
-      &-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    &__results {
-      padding: 1.5rem;
-
-      &-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+  .mode-section {
+    margin-inline: 8rem;
   }
 }

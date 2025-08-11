@@ -1,0 +1,70 @@
+.mode-selector {
+  overflow: hidden;
+  position: relative;
+  margin-block: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.182) 0px 5px 15px 0px;
+  background-color: white;
+  border-radius: 2px;
+  
+  .mode-selector-wrapper {
+    position: relative;
+    z-index: 0;
+
+    .active-mode-indicator {
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      z-index: -1;
+      left: calc(calc(100% / 3) * var(--active-index));
+      width: calc(100% / 3);
+      height: 100%;
+      box-shadow: #077c2e9c 0px 0px 20px;
+      border-radius: 1px;
+      transition: left 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+
+      .filler {
+        position: absolute;
+        top: -200px;
+        left: -25%;
+        width: 800px;
+        height: 500px;
+        background: linear-gradient(135deg, #22c55e 0%, #059669 100%);
+        transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+      }
+    }
+  
+    .mode-list {
+      display: flex;
+      justify-content: space-around;
+    }
+  
+    .mode-btn {
+      flex: 1 1 0;
+      background-color: transparent;
+      padding-block: 20px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      color: #374151;
+      transition: color 0.6s ease;
+  
+      &.is-active {
+        color: #fff;
+      }
+    }
+  }
+}
+
+/* Rotate filler aktif index'e göre */
+.modes[data-active-index="0"] .active-mode-indicator .filler {
+  transform: rotate(0deg);
+}
+
+.modes[data-active-index="1"] .active-mode-indicator .filler {
+  transform: rotate(90deg);
+}
+
+.modes[data-active-index="2"] .active-mode-indicator .filler {
+  transform: rotate(180deg);
+}

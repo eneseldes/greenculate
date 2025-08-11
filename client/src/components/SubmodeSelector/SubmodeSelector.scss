@@ -1,0 +1,30 @@
+.submode-selector {
+  margin-block: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  .submode-list {
+    display: flex;
+    gap: 16px;
+  }
+
+  .submode-btn {
+    flex: 1;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    background: white;
+    color: #374151;
+    border-radius: 1px;
+    transition: 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+
+    &.active {
+      box-shadow: rgba(0, 0, 0, 0.182) 0px 5px 15px 0px;
+      background-color: #2eae5d;
+      color: white;
+    }
+  }
+}
