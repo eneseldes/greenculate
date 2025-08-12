@@ -31,8 +31,8 @@ function App() {
     },
   ];
   const submodes = [
-    { id: "execute", label: "🌐 Execute" },
-    { id: "history", label: "📊 History" },
+    { id: "execute", label: "🌐 İşlem Yap" },
+    { id: "history", label: "📊 Geçmiş Kayıtlar" },
   ];
 
   const [activeMode, setActiveMode] = useState(modes[0]);
@@ -54,12 +54,7 @@ function App() {
   };
 
   return (
-    <main>
-      <header>
-        <h1 className="header-title">greenculate</h1>
-        <p className="header-subtitle">Karbon emisyonunu hesapla</p>
-      </header>
-
+    <>
       <ModeSelector
         value={activeMode}
         onChange={(mode) => {
@@ -69,20 +64,27 @@ function App() {
         modes={modes}
       />
 
-      <div className="mode-section">
-        <div className="mode-description">{activeMode.description}</div>
+      <main>
+        <header>
+          <h1 className="header-title">greenculate</h1>
+          <p className="header-subtitle">Karbon emisyonunu hesapla</p>
+        </header>
 
-        <SubmodeSelector
-          value={activeSubmode}
-          onChange={setActiveSubmode}
-          submodes={submodes}
-        />
+        <div className="mode-section">
+          <div className="mode-description">{activeMode.description}</div>
 
-        {activeMode.id === "http" && httpViews[activeSubmode.id]}
-        {activeMode.id === "code" && codeViews[activeSubmode.id]}
-        {activeMode.id === "json" && jsonViews[activeSubmode.id]}
-      </div>
-    </main>
+          <SubmodeSelector
+            value={activeSubmode}
+            onChange={setActiveSubmode}
+            submodes={submodes}
+          />
+
+          {activeMode.id === "http" && httpViews[activeSubmode.id]}
+          {activeMode.id === "code" && codeViews[activeSubmode.id]}
+          {activeMode.id === "json" && jsonViews[activeSubmode.id]}
+        </div>
+      </main>
+    </>
   );
 }
 

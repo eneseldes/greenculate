@@ -12,13 +12,17 @@ $shadow-light: rgba(0, 0, 0, 0.1);
   flex-direction: column;
   gap: 1rem;
 
-  .loading,
-  .empty {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
-    color: $text-gray;
+  .loading {
+    text-align: center;
+    padding: 32px;
+    color: #166534;
+  }
+
+  .error {
+    background: #fee2e2;
+    border-radius: 2px;
+    padding: 24px;
+    color: #dc2626;
   }
 
   .record {

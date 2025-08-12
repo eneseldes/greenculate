@@ -26,16 +26,16 @@ function CodeExecutionHistory() {
 
   if (loading) {
     return (
-      <div className="execution-history__loading">
-        <p>Loading execution history...</p>
+      <div className="loading">
+        <p>Yükleniyor...</p>
       </div>
     );
   }
 
   if (history.length === 0) {
     return (
-      <div className="execution-history__empty">
-        <p>No execution history found.</p>
+      <div className="error">
+        <p>Geçmiş yüklenirken bir hata oluştu.</p>
       </div>
     );
   }
