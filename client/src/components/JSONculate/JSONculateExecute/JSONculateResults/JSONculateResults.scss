@@ -1,0 +1,115 @@
+/* Result panel */
+.jsonculate-results {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border-radius: 2px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  border: 1px solid #bbf7d0;
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #166534;
+    margin: 0;
+  }
+
+  /* Pills */
+  .pill {
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: 500;
+
+    &--amber {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    &--blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+  }
+
+  .parsers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    .parser-card {
+      background: #fff;
+      border-radius: 2px;
+      padding: 1.5rem 1.25rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #dcfce7;
+
+      .parser-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+
+        .avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .emoji {
+            font-size: 20px;
+          }
+
+          &--green {
+            background: #d1fae5;
+          }
+          &--blue {
+            background: #dbeafe;
+          }
+          &--purple {
+            background: #f3e8ff;
+          }
+        }
+
+        .parser-name {
+          font-size: 16px;
+          font-weight: 600;
+          color: #166534;
+          margin: 0;
+        }
+
+        .parser-caption {
+          font-size: 14px;
+          color: #6b7280;
+          margin: 4px 0 0 0;
+        }
+      }
+
+      .stats {
+        display: grid;
+        gap: 12px;
+      
+        .muted {
+          font-size: 14px;
+          color: #6b7280;
+          margin: 0 0 4px 0;
+        }
+        
+        .value {
+          font-size: 18px;
+          font-weight: 600;
+          color: #166534;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import "./CodeExecutionHistory.scss";
+import "./CodeculateHistory.scss";
 
 function CodeExecutionHistory() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchHistory();
@@ -17,40 +18,37 @@ function CodeExecutionHistory() {
       }
       const data = await response.json();
       setHistory(data);
+      setError(null);
     } catch (error) {
-      console.error("Error fetching history:", error);
+      setError(err.message || "Geçmiş yüklenirken bir hata oluştu");
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return (
-      <div className="loading">
-        <p>Yükleniyor...</p>
-      </div>
-    );
+    return <div className="loading">Yükleniyor...</div>;
+  }
+
+  if (error) {
+    return <div className="error">{error}</div>;
   }
 
   if (history.length === 0) {
-    return (
-      <div className="error">
-        <p>Geçmiş yüklenirken bir hata oluştu.</p>
-      </div>
-    );
+    return <div className="error">Geçmiş yüklenirken bir hata oluştu.</div>;
   }
 
   return (
-    <div className="code-execution-history">
+    <div className="codeculate-history">
       {history.map((record, index) => (
         <div key={index} className="record">
-          <div className="record-header">
+          <div className="record-row">
             {/* Language and Timestamp */}
-            <div className="record-field">
+            <div className="record-group">
               <p className="label">Language</p>
               <p className="value">{record.programming_language}</p>
             </div>
-            <div className="record-field">
+            <div className="record-group">
               <p className="label">Execution Time</p>
               <p className="value">
                 {new Date(record.execution_time).toLocaleString()}
@@ -60,7 +58,7 @@ function CodeExecutionHistory() {
 
           <div className="record-metrics">
             {/* Metrics */}
-            <div className="record-field">
+            <div className="record-group">
               <p className="label">Total Emissions</p>
               <p className="value green">
                 {record.total_carbon_emission
@@ -69,7 +67,7 @@ function CodeExecutionHistory() {
                 (kg CO₂)
               </p>
             </div>
-            <div className="record-field">
+            <div className="record-group">
               <p className="label">Per Execution</p>
               <p className="value green">
                 {record.carbon_per_execution
@@ -78,11 +76,11 @@ function CodeExecutionHistory() {
                 (kg CO₂)
               </p>
             </div>
-            <div className="record-field">
+            <div className="record-group">
               <p className="label">Execution Count</p>
               <p className="value">{record.execution_count}x</p>
             </div>
-            <div className="record-field">
+            <div className="record-group">
               <p className="label">Duration</p>
               <p className="value">
                 {record.execution_duration_seconds
@@ -95,17 +93,17 @@ function CodeExecutionHistory() {
 
           {/* System Info */}
           <div className="record-system">
-            <div className="record-field">
+            <div className="record-group">
               <p className="label">CPU Model</p>
               <p className="value system">{record.cpu_model}</p>
             </div>
-            <div className="record-field">
+            <div className="record-group">
               <p className="label">RAM</p>
               <p className="value system">
                 {record.total_ram_gb ? record.total_ram_gb.toFixed(2) : "0"} GB
               </p>
             </div>
-            <div className="record-field">
+            <div className="record-group">
               <p className="label">Location</p>
               <p className="value system">
                 {record.country_name || "Unknown"} (

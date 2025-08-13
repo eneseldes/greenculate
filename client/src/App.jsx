@@ -1,12 +1,12 @@
 import { useState } from "react";
 import ModeSelector from "./components/ModeSelector/ModeSelector";
 import SubmodeSelector from "./components/SubmodeSelector/SubmodeSelector";
-import HTTPRequestPanel from "./components/HTTPRequestSection/HTTPRequestPanel/HTTPRequestPanel";
-import HTTPRequestHistory from "./components/HTTPRequestSection/HTTPRequestHistory/HTTPRequestHistory";
-import CodeExecutionPanel from "./components/CodeExecutionSection/CodeExecutionPanel/CodeExecutionPanel";
-import CodeExecutionHistory from "./components/CodeExecutionSection/CodeExecutionHistory/CodeExecutionHistory";
-import JSONParsingPanel from "./components/JSONParsingSection/JSONParsingPanel/JSONParsingPanel";
-import JSONParsingHistory from "./components/JSONParsingSection/JSONParsingHistory/JSONParsingHistory";
+import HTTPculateExecute from "./components/HTTPculate/HTTPculateExecute/HTTPculateExecute";
+import HTTPculateHistory from "./components/HTTPculate/HTTPculateHistory/HTTPculateHistory";
+import CodeculateExecute from "./components/Codeculate/CodeculateExecute/CodeculateExecute";
+import CodeculateHistory from "./components/Codeculate/CodeculateHistory/CodeculateHistory";
+import JSONculateExecute from "./components/JSONculate/JSONculateExecute/JSONculateExecute";
+import JSONculateHistory from "./components/JSONculate/JSONculateHistory/JSONculateHistory";
 import "./App.scss";
 
 function App() {
@@ -39,18 +39,18 @@ function App() {
   const [activeSubmode, setActiveSubmode] = useState(submodes[0]);
 
   const httpViews = {
-    execute: <HTTPRequestPanel />,
-    history: <HTTPRequestHistory />,
+    execute: <HTTPculateExecute />,
+    history: <HTTPculateHistory />,
   };
 
   const codeViews = {
-    execute: <CodeExecutionPanel />,
-    history: <CodeExecutionHistory />,
+    execute: <CodeculateExecute />,
+    history: <CodeculateHistory />,
   };
 
   const jsonViews = {
-    execute: <JSONParsingPanel />,
-    history: <JSONParsingHistory />,
+    execute: <JSONculateExecute />,
+    history: <JSONculateHistory />,
   };
 
   return (

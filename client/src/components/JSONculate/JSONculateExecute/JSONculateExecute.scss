@@ -1,0 +1,49 @@
+.jsonculate-form {
+  .content {
+    display: flex;
+    gap: 24px;
+
+    .left-box {
+      display: grid;
+      width: 30%;
+
+      .parsers {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+
+        .parser-card {
+          background: #f3f4f6;
+          padding: 12px;
+          border-radius: 2px;
+          border: 1px solid #e5e7eb;
+
+          .row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .icon {
+              font-size: 16px;
+              line-height: 1;
+            }
+
+            .info-title {
+              font-weight: 600;
+              color: #374151;
+            }
+          }
+
+          .info-desc {
+            font-size: 12px;
+            color: #6b7280;
+          }
+        }
+      }
+    }
+
+    .editor-area {
+      width: 70%;
+    }
+  }
+}

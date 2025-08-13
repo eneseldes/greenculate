@@ -1,0 +1,34 @@
+@use "../../styles/variables" as *;
+
+.submit-button {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: linear-gradient(
+    135deg,
+    $primary-green-light 0%,
+    $primary-green 100%
+  );
+  color: $white;
+  font-size: 1.125rem;
+  border-radius: 1px;
+  box-shadow: 0 10px 15px -3px $shadow-light;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(
+      135deg,
+      $secondary-green 0%,
+      $primary-green-dark 100%
+    );
+    transform: scale(1.02);
+  }
+
+  &:disabled {
+    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+    cursor: not-allowed;
+  }
+}

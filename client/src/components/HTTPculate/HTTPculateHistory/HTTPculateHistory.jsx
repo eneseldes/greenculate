@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './HTTPRequestHistory.scss';
+import './HTTPculateHistory.scss';
 
 function HTTPRequestHistory() {
   const [history, setHistory] = useState([]);

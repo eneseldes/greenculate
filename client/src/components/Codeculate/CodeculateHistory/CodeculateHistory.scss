@@ -1,13 +1,6 @@
-// Variables
-$primary-green: #059669;
-$text-dark: #1f2937;
-$text-gray: #6b7280;
-$border-green: #dcfce7;
-$background-light: #f9fafb;
-$white: #ffffff;
-$shadow-light: rgba(0, 0, 0, 0.1);
+@use "../../../styles/variables" as *;
 
-.code-execution-history {
+.codeculate-history {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -26,35 +19,20 @@ $shadow-light: rgba(0, 0, 0, 0.1);
   }
 
   .record {
+    display: grid;
+    row-gap: 1rem;
     background-color: $white;
-    padding: 1.5rem;
+    padding: 2rem;
     box-shadow: 0 1px 3px 0 $shadow-light;
     border: 1px solid $border-green;
 
-    .record-header {
+    .record-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: 1rem;
-      margin-bottom: 1rem;
     }
 
-    .record-metrics {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .record-system {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-      background-color: $background-light;
-      margin-bottom: 1rem;
-    }
-
-    .record-field {
+    .record-group {
       .label {
         font-size: 0.875rem;
         color: $text-gray;
@@ -77,6 +55,20 @@ $shadow-light: rgba(0, 0, 0, 0.1);
       }
     }
 
+    .record-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    .record-system {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+      background-color: $background-light;
+    }
+
     .record-code {
       .label {
         font-size: 0.875rem;
@@ -90,21 +82,6 @@ $shadow-light: rgba(0, 0, 0, 0.1);
         padding: 1rem;
         overflow: auto;
         max-height: 200px;
-      }
-    }
-  }
-}
-
-// Responsive design
-@media (max-width: 768px) {
-  .code-execution-history {
-    .record {
-      padding: 1rem;
-
-      &-header,
-      &-metrics,
-      &-system {
-        grid-template-columns: 1fr;
       }
     }
   }

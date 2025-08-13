@@ -17,3 +17,11 @@
 2025-08-10T19:00:56.648Z | GET https://www.amazon.com/ | Green: false | 1 req | 731073 bytes | 280.125607 g CO₂
 2025-08-10T19:00:59.443Z | GET https://www.amazon.com/ | Green: false | 1 req | 734050 bytes | 281.266306 g CO₂
 2025-08-10T19:01:53.077Z | GET https://www.amazon.com/ | Green: false | 1 req | 211346 bytes | 80.981552 g CO₂
+2025-08-13T17:51:51.115Z | GET https://www.amazon.com/ | Green: false | 1 req | 717132 bytes | 274.783827 g CO₂
+2025-08-13T17:55:54.418Z | GET https://www.amazon.com/ | Green: false | 1 req | 723657 bytes | 277.284015 g CO₂
+2025-08-13T17:56:15.762Z | GET https://www.amazon.com/ | Green: false | 1 req | 211346 bytes | 80.981552 g CO₂
+2025-08-13T17:58:36.634Z | GET https://www.amazon.com/ | Green: false | 1 req | 723431 bytes | 277.197418 g CO₂
+2025-08-13T18:13:55.388Z | GET https://www.amazon.com/ | Green: false | 1 req | 722494 bytes | 276.838387 g CO₂
+2025-08-13T18:15:43.646Z | GET https://www.amazon.com/ | Green: false | 1 req | 211346 bytes | 80.981552 g CO₂
+2025-08-13T18:16:08.763Z | GET https://www.amazon.com/ | Green: false | 1 req | 709286 bytes | 271.777471 g CO₂
+2025-08-13T18:16:11.831Z | GET https://www.amazon.com/ | Green: false | 1 req | 718833 bytes | 275.435600 g CO₂

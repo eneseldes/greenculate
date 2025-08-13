@@ -1,0 +1,153 @@
+@use "../../../../styles/variables" as *;
+
+.codeculate-results {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(
+    135deg,
+    $background-green-lighter 0%,
+    $background-green-light 100%
+  );
+  border-radius: 2px;
+  box-shadow: 0 10px 15px -3px $shadow-light;
+  border: 1px solid $background-green-lighter;
+
+  .title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: $secondary-green;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .card {
+    background: $white;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px $shadow-light;
+    border: 1px solid $border-green;
+
+    .card-content {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .card-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+
+      &.green {
+        background-color: $background-green-light;
+        color: $primary-green;
+      }
+
+      &.blue {
+        background-color: $blue-light;
+        color: $blue;
+      }
+
+      &.purple {
+        background-color: $purple-light;
+        color: $purple;
+      }
+    }
+
+    .card-text {
+      .label {
+        font-size: 0.875rem;
+        color: $text-light-gray;
+      }
+
+      .value {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: $text-dark;
+
+        &.success {
+          color: $secondary-green;
+        }
+      }
+    }
+  }
+
+  .details {
+    margin-top: 1.25rem;
+    background: $white;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px $shadow-light;
+    border: 1px solid $border-green;
+  
+    .title {
+      font-size: 1rem;
+      font-weight: bold;
+      color: $secondary-green;
+      margin-bottom: 1rem;
+    }
+  
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+  
+    .details-item {
+      .label {
+        font-size: 0.75rem;
+        color: $text-light-gray;
+      }
+  
+      .value {
+        font-size: 0.875rem;
+        font-weight: bold;
+        color: $text-dark;
+  
+        &.success {
+          color: $secondary-green;
+        }
+  
+        &.error {
+          color: $error-red;
+        }
+      }
+    }
+  
+    .output,
+    .error {
+      margin-top: 1rem;
+  
+      .label {
+        font-size: 0.75rem;
+        color: $text-light-gray;
+      }
+  
+      pre {
+        padding: 0.75rem;
+        font-size: 0.75rem;
+        overflow: auto;
+        max-height: 100px;
+        margin: 0;
+      }
+    }
+  
+    .output pre {
+      background-color: #f3f4f6;
+      color: $text-gray;
+    }
+  
+    .error pre {
+      background-color: $error-bg;
+      color: $error-red;
+    }
+  }
+}

@@ -1,9 +1,5 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import CodeMirror from '@uiw/react-codemirror';
-import { json } from '@codemirror/lang-json';
-import { EditorView } from '@codemirror/view';
-import './JSONParsingHistory.scss';
+import { useState, useEffect } from "react";
+import "./JSONculateHistory.scss";
 
 function JSONParsingHistory() {
   const [history, setHistory] = useState([]);
@@ -16,11 +12,17 @@ function JSONParsingHistory() {
 
   const fetchHistory = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/parse-json/history');
-      setHistory(response.data);
+      const response = await fetch("http://localhost:5000/parse-json/history");
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setHistory(data);
       setError(null);
     } catch (err) {
-      setError(err.response?.data?.error || 'Geçmiş yüklenirken bir hata oluştu');
+      setError(err.message || "Geçmiş yüklenirken bir hata oluştu");
     } finally {
       setLoading(false);
     }
@@ -31,7 +33,7 @@ function JSONParsingHistory() {
   }
 
   if (error) {
-    return <div className="error">{error}</div>;
+    return <div className="error">Geçmiş yüklenirken bir hata oluştu.</div>;
   }
 
   if (history.length === 0) {
@@ -39,11 +41,11 @@ function JSONParsingHistory() {
   }
 
   return (
-    <div className="json-parsing-history">
+    <div className="jsonculate-history">
       {history.map((record) => (
-        <div className="history-card" key={record.id}>
+        <div className="record" key={record.id}>
           {/* Header */}
-          <div className="history-header">
+          <div className="record-header">
             <div className="header-left">
               <div className="icon-circle">📊</div>
               <div>
@@ -53,7 +55,11 @@ function JSONParsingHistory() {
             </div>
             <div className="tags">
               <div className="tag-green">{record.iterations}x tekrar</div>
-              {record.is_scaled && <div className="tag-yellow">1000 tekrar üzerinden ölçeklendirildi</div>}
+              {record.is_scaled && (
+                <div className="tag-yellow">
+                  1000 tekrar üzerinden ölçeklendirildi
+                </div>
+              )}
             </div>
           </div>
 
@@ -67,7 +73,9 @@ function JSONParsingHistory() {
               <div className="result-data">
                 <div>
                   <p className="label">Emisyon</p>
-                  <p className="value">{record.json_emissions.toFixed(6)} kg CO₂</p>
+                  <p className="value">
+                    {record.json_emissions.toFixed(6)} kg CO₂
+                  </p>
                 </div>
                 <div>
                   <p className="label">Süre</p>
@@ -84,11 +92,15 @@ function JSONParsingHistory() {
               <div className="result-data">
                 <div>
                   <p className="label">Emisyon</p>
-                  <p className="value">{record.orjson_emissions.toFixed(6)} kg CO₂</p>
+                  <p className="value">
+                    {record.orjson_emissions.toFixed(6)} kg CO₂
+                  </p>
                 </div>
                 <div>
                   <p className="label">Süre</p>
-                  <p className="value">{record.orjson_duration.toFixed(2)} sn</p>
+                  <p className="value">
+                    {record.orjson_duration.toFixed(2)} sn
+                  </p>
                 </div>
               </div>
             </div>
@@ -101,7 +113,9 @@ function JSONParsingHistory() {
               <div className="result-data">
                 <div>
                   <p className="label">Emisyon</p>
-                  <p className="value">{record.ujson_emissions.toFixed(6)} kg CO₂</p>
+                  <p className="value">
+                    {record.ujson_emissions.toFixed(6)} kg CO₂
+                  </p>
                 </div>
                 <div>
                   <p className="label">Süre</p>
@@ -118,7 +132,7 @@ function JSONParsingHistory() {
 
           {/* System Info */}
           <div className="system-info">
-            <h4>Sistem Bilgileri</h4>
+            <div className="system-info-title">Sistem Bilgileri</div>
             <div className="system-grid">
               <div>
                 <p className="label">İşlemci</p>
@@ -140,12 +154,9 @@ function JSONParsingHistory() {
           </div>
 
           {/* JSON Preview */}
-          {/* Code Preview */}
           <div className="json-preview">
             <p className="label">JSON İçeriği</p>
-            <pre>
-              {record.json_input}
-            </pre>
+            <pre>{record.json_input}</pre>
           </div>
         </div>
       ))}

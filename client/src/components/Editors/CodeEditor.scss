@@ -1,0 +1,12 @@
+@use "../../styles/variables" as *;
+
+.code-editor {
+  border: 2px solid $border-color;
+  overflow: hidden;
+  border-radius: 2px;
+  transition: all 0.2s;
+
+  &:focus-within {
+    box-shadow: 0 0 5px 2px rgba(5, 150, 104, 0.049);
+  }
+}

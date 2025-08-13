@@ -1,0 +1,82 @@
+[
+  {
+    "timestamp": "2025-08-13T17:51:51.117Z",
+    "url": "https://www.amazon.com/",
+    "method": "GET",
+    "library": "axios",
+    "repeat": 1,
+    "isGreen": false,
+    "totalBytes": 717132,
+    "estimatedCO2": 274.783827
+  },
+  {
+    "timestamp": "2025-08-13T17:55:54.421Z",
+    "url": "https://www.amazon.com/",
+    "method": "GET",
+    "library": "axios",
+    "repeat": 1,
+    "isGreen": false,
+    "totalBytes": 723657,
+    "estimatedCO2": 277.284015
+  },
+  {
+    "timestamp": "2025-08-13T17:56:15.762Z",
+    "url": "https://www.amazon.com/",
+    "method": "GET",
+    "library": "axios",
+    "repeat": 1,
+    "isGreen": false,
+    "totalBytes": 211346,
+    "estimatedCO2": 80.981552
+  },
+  {
+    "timestamp": "2025-08-13T17:58:36.635Z",
+    "url": "https://www.amazon.com/",
+    "method": "GET",
+    "library": "axios",
+    "repeat": 1,
+    "isGreen": false,
+    "totalBytes": 723431,
+    "estimatedCO2": 277.197418
+  },
+  {
+    "timestamp": "2025-08-13T18:13:55.393Z",
+    "url": "https://www.amazon.com/",
+    "method": "GET",
+    "library": "axios",
+    "repeat": 1,
+    "isGreen": false,
+    "totalBytes": 722494,
+    "estimatedCO2": 276.838387
+  },
+  {
+    "timestamp": "2025-08-13T18:15:43.648Z",
+    "url": "https://www.amazon.com/",
+    "method": "GET",
+    "library": "axios",
+    "repeat": 1,
+    "isGreen": false,
+    "totalBytes": 211346,
+    "estimatedCO2": 80.981552
+  },
+  {
+    "timestamp": "2025-08-13T18:16:08.764Z",
+    "url": "https://www.amazon.com/",
+    "method": "GET",
+    "library": "node-fetch",
+    "repeat": 1,
+    "isGreen": false,
+    "totalBytes": 709286,
+    "estimatedCO2": 271.777471
+  },
+  {
+    "timestamp": "2025-08-13T18:16:11.833Z",
+    "url": "https://www.amazon.com/",
+    "method": "GET",
+    "library": "node-fetch",
+    "repeat": 1,
+    "isGreen": false,
+    "totalBytes": 718833,
+    "estimatedCO2": 275.4356
+  }
+]
