@@ -5,13 +5,20 @@ import SubmitButton from "../../SubmitButton/SubmitButton";
 import HTTPculateResults from "./HTTPculateResults/HTTPculateResults";
 
 const SUPPORTED_LIBRARIES = ["axios", "node-fetch", "http"];
-const HTTP_METHODS = ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"];
+const HTTP_METHODS = [
+  "GET",
+  "POST",
+  "PUT",
+  "DELETE",
+  "PATCH",
+  "HEAD",
+  "OPTIONS",
+];
 
 function HTTPRequestExecute() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("response");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,21 +69,23 @@ function HTTPRequestExecute() {
             <label>HTTP Library</label>
             <select name="library" defaultValue="axios">
               {SUPPORTED_LIBRARIES.map((lib) => (
-                <option key={lib} value={lib}>{lib}</option>
+                <option key={lib} value={lib}>
+                  {lib}
+                </option>
               ))}
             </select>
           </div>
-
           <div className="form-group">
             <label>Method</label>
             <select name="method" defaultValue="GET">
               {HTTP_METHODS.map((m) => (
-                <option key={m} value={m}>{m}</option>
+                <option key={m} value={m}>
+                  {m}
+                </option>
               ))}
             </select>
           </div>
         </div>
-
         <div className="form-group">
           <label>URL</label>
           <input
@@ -86,22 +95,9 @@ function HTTPRequestExecute() {
             required
           />
         </div>
-
-        <div className="form-group">
-          <label>Headers (JSON)</label>
-          <textarea name="headers" placeholder='{"Content-Type": "application/json"}' />
-        </div>
-
-        <div className="form-group">
-          <label>Body</label>
-          <textarea name="body" placeholder='{"key":"value"}' />
-        </div>
-
         <SubmitButton loading={loading} />
       </form>
-
       <HTTPculateResults result={response} />
-
       {error && <div className="error">{error}</div>}
     </>
   );
