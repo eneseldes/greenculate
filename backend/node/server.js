@@ -34,7 +34,7 @@ async function isGreenHost(hostname) {
 }
 
 // İstatistikleri getir
-app.get("/request/stats", (req, res) => {
+app.get("/httpculate/stats", (req, res) => {
   try {
     const data = fs.readFileSync(historyPath);
     const history = JSON.parse(data);
@@ -75,7 +75,7 @@ app.get("/request/stats", (req, res) => {
 });
 
 // Karbon salınımı hesaplama ve kayıt
-app.post("/request", async (req, res) => {
+app.post("/httpculate/execute", async (req, res) => {
   const { url, method, headers, body, library = 'axios', repeat = 1 } = req.body;
 
   try {
@@ -173,7 +173,7 @@ app.post("/request", async (req, res) => {
 });
 
 // Geçmiş verileri al
-app.get("/request/history", (req, res) => {
+app.get("/httpculate/history", (req, res) => {
   try {
     const data = fs.readFileSync(historyPath);
     res.json(JSON.parse(data));

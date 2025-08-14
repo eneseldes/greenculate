@@ -88,5 +88,15 @@
     "isGreen": false,
     "totalBytes": 711138,
     "estimatedCO2": 272.487103
+  },
+  {
+    "timestamp": "2025-08-13T20:13:26.086Z",
+    "url": "https://www.amazon.com/",
+    "method": "GET",
+    "library": "axios",
+    "repeat": 1,
+    "isGreen": false,
+    "totalBytes": 725688,
+    "estimatedCO2": 278.062234
   }
 ]
