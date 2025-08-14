@@ -1,9 +1,21 @@
+/**
+ * JSONEditor Bileşeni
+ * =================================================================
+ * CodeMirror tabanlı JSON editörü bileşeni. JSON verilerini düzenlemek
+ * için syntax highlighting, otomatik formatlama ve tema desteği sağlar.
+ */
+
 import { useMemo } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { json as jsonLang } from "@codemirror/lang-json";
 import { EditorView } from "@codemirror/view";
 import "./JSONEditor.scss";
 
+/**
+ * @param {string} value - Editörde gösterilecek JSON değeri
+ * @param {Function} onChange - JSON değiştiğinde çağrılacak callback
+ * @param {string} height - Editör yüksekliği
+ */
 function JSONEditor({ value, onChange, height = "400px"}) {
   // Editöre özel tema
   const customTheme = useMemo(
@@ -43,28 +55,28 @@ function JSONEditor({ value, onChange, height = "400px"}) {
         height={height}
         className="json-editor"
         basicSetup={{
-          lineNumbers: true,
-          highlightActiveLineGutter: true,
-          highlightSpecialChars: true,
-          foldGutter: true,
-          drawSelection: true,
-          dropCursor: true,
-          allowMultipleSelections: true,
-          indentOnInput: true,
-          bracketMatching: true,
-          closeBrackets: true,
-          autocompletion: true,
-          rectangularSelection: true,
-          crosshairCursor: true,
-          highlightActiveLine: true,
-          highlightSelectionMatches: true,
-          closeBracketsKeymap: true,
-          defaultKeymap: true,
-          searchKeymap: true,
-          historyKeymap: true,
-          foldKeymap: true,
-          completionKeymap: true,
-          lintKeymap: true,
+          lineNumbers: true,              // Satır numaraları
+          highlightActiveLineGutter: true, // Aktif satır gutter'ını vurgula
+          highlightSpecialChars: true,    // Özel karakterleri vurgula
+          foldGutter: true,               // JSON katlama gutter'ı
+          drawSelection: true,            // Seçimi çiz
+          dropCursor: true,               // Sürükle-bırak cursor'ı
+          allowMultipleSelections: true,  // Çoklu seçim
+          indentOnInput: true,            // Girişte otomatik girinti
+          bracketMatching: true,          // Parantez eşleştirme (JSON için önemli)
+          closeBrackets: true,            // Otomatik parantez kapatma
+          autocompletion: true,           // Otomatik tamamlama
+          rectangularSelection: true,     // Dikdörtgen seçim
+          crosshairCursor: true,          // Crosshair cursor
+          highlightActiveLine: true,      // Aktif satırı vurgula
+          highlightSelectionMatches: true, // Seçim eşleşmelerini vurgula
+          closeBracketsKeymap: true,      // Parantez kapatma kısayolları
+          defaultKeymap: true,            // Varsayılan kısayollar
+          searchKeymap: true,             // Arama kısayolları
+          historyKeymap: true,            // Geçmiş kısayolları
+          foldKeymap: true,               // Katlama kısayolları
+          completionKeymap: true,         // Tamamlama kısayolları
+          lintKeymap: true,               // Lint kısayolları
         }}
       />
     </div>

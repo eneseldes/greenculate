@@ -1,13 +1,24 @@
+/**
+ * HTTPculateResults Bileşeni
+ * =================================================================
+ * HTTP isteklerinin emisyon hesaplama sonuçlarını görüntüleyen bileşen. 
+ * Backend'den gelen HTTP yanıt verilerini kullanıcı dostu kartlar halinde gösterir.
+ */
+
 import "./HTTPculateResults.scss";
 
+/**
+ * @param {Object} result - Backend'den gelen HTTP yanıt sonuçları
+ */
 function HTTPculateResults({ result }) {
   return (
     <>
       {result && (
         <div className="httpculate-results">
+          {/* Başlık */}
           <div className="title">HTTP İstek Sonuçları</div>
           <div className="grid">
-            {/* Emisyon */}
+            {/* Emisyon Kartı */}
             <div className="card">
               <div className="card-content">
                 <div className="card-icon green">
@@ -23,8 +34,7 @@ function HTTPculateResults({ result }) {
                 </div>
               </div>
             </div>
-
-            {/* Veri Transferi */}
+            {/* Veri Transferi Kartı */}
             <div className="card">
               <div className="card-content">
                 <div className="card-icon blue">
@@ -40,8 +50,7 @@ function HTTPculateResults({ result }) {
                 </div>
               </div>
             </div>
-
-            {/* Çalışma Süresi */}
+            {/* Çalışma Süresi Kartı */}
             <div className="card">
               <div className="card-content">
                 <div className="card-icon purple">
@@ -57,8 +66,7 @@ function HTTPculateResults({ result }) {
                 </div>
               </div>
             </div>
-
-            {/* Green Hosting */}
+            {/* Yeşil Hosting Kartı */}
             <div className="card">
               <div className="card-content">
                 <div className="card-icon yellow">
@@ -77,11 +85,11 @@ function HTTPculateResults({ result }) {
               </div>
             </div>
           </div>
-
           {/* Sonuç Detayları */}
           <div className="details">
             <h4 className="title">Sonuç Detayları</h4>
             <div className="grid">
+              {/* HTTP Durum Kodu */}
               <div className="details-item">
                 <p className="label">Durum Kodu</p>
                 <p
@@ -92,10 +100,12 @@ function HTTPculateResults({ result }) {
                   {result.status || "N/A"}
                 </p>
               </div>
+              {/* Kullanılan Kütüphane */}
               <div className="details-item">
                 <p className="label">Kütüphane</p>
                 <p className="value">{result.library || "N/A"}</p>
               </div>
+              {/* HTTP Metodu */}
               <div className="details-item">
                 <p className="label">HTTP Metodu</p>
                 <p className="value">{result.method || "N/A"}</p>

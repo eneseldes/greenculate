@@ -1,0 +1,148 @@
+@use "../../styles/variables" as *;
+
+.total-emissions-container {
+  width: 65%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 2px;
+  box-shadow: 0 10px 15px -3px $shadow-light;
+  border: 1px solid #dcfce7;
+  color: $text-dark;
+
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .emissions-summary {
+    background-color: #f8f9fa;
+    border-radius: 2px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+
+    .total-emissions {
+      text-align: center;
+      margin-bottom: 2rem;
+      
+      h3 {
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        font-size: 2rem;
+        color: #27ae60;
+        font-weight: bold;
+        margin: 0;
+      }
+    }
+
+    .emissions-breakdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+
+      .breakdown-item {
+        background-color: white;
+        padding: 1rem;
+        border-radius: 2px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        span:first-child {
+          color: #34495e;
+        }
+
+        span:last-child {
+          color: #27ae60;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .equivalents-title {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .equivalents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .equivalent-card {
+    text-align: right;
+    background-color: #f8f9fa;
+    border-radius: 2px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-3px);
+    }
+
+    .icon {
+      font-size: 1.5rem;
+      color: #27ae60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content {
+      h3 {
+        color: #2c3e50;
+        font-size: 1rem;
+      }
+
+      .value {
+        font-size: 1.5rem;
+        color: #27ae60;
+        margin-block: 0.3rem 0.2rem;
+        font-weight: bold;
+
+        span {
+          margin-right: 0.25rem;
+        }
+      }
+
+      .description {
+        color: #7f8c8d;
+        margin: 0;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .info-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f7f4;
+    padding: 1rem;
+    border-radius: 2px;
+    margin-top: 2rem;
+
+    .tree-icon {
+      color: #27ae60;
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
+
+    p {
+      color: #34495e;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+  }
+}

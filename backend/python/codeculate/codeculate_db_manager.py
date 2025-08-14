@@ -20,6 +20,9 @@ import platform
 import psutil
 from typing import Dict, Any, List, Optional, Tuple
 from .normalize_and_compare import normalize
+from config.logging_config import setup_logger
+
+logger = setup_logger('codeculate_db')
 
 ################========== CodeculateDBManager ==========################
 class CodeculateDBManager:
@@ -29,34 +32,37 @@ class CodeculateDBManager:
 
     ################ Database'i oluşturur ################
     def init_db(self):
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
 
-        cursor.execute('''
-        CREATE TABLE IF NOT EXISTS execution_reports (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            execution_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            programming_language TEXT NOT NULL,
-            execution_count INTEGER NOT NULL,
-            total_carbon_emission REAL NOT NULL,
-            carbon_per_execution REAL NOT NULL,
-            execution_duration_seconds REAL NOT NULL,
-            cpu_model TEXT,
-            cpu_count INTEGER,
-            cpu_usage_percent REAL,
-            total_ram_gb REAL,
-            ram_usage_percent REAL,
-            os_name TEXT,
-            os_version TEXT,
-            code_text TEXT NOT NULL,
-            normalized_code TEXT NOT NULL,
-            is_scaled BOOLEAN NOT NULL DEFAULT 0,
-            scale_threshold INTEGER NOT NULL DEFAULT 10000
-        )
-        ''')
+            cursor.execute('''
+            CREATE TABLE IF NOT EXISTS execution_reports (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                execution_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                programming_language TEXT NOT NULL,
+                execution_count INTEGER NOT NULL,
+                total_carbon_emission REAL NOT NULL,
+                carbon_per_execution REAL NOT NULL,
+                execution_duration_seconds REAL NOT NULL,
+                cpu_model TEXT,
+                cpu_count INTEGER,
+                total_ram_gb REAL,
+                os_name TEXT,
+                code_text TEXT NOT NULL,
+                normalized_code TEXT NOT NULL,
+                is_scaled BOOLEAN NOT NULL DEFAULT 0,
+                scale_threshold INTEGER NOT NULL DEFAULT 10000
+            )
+            ''')
 
-        conn.commit()
-        conn.close()
+            conn.commit()
+            logger.info("Codeculate database initialized successfully")
+        except Exception as e:
+            logger.error(f"Error initializing database: {str(e)}")
+            raise
+        finally:
+            conn.close()
 
     ################ Execution raporunu veritabanına kaydeder ################
     def save_report(
@@ -88,16 +94,13 @@ class CodeculateDBManager:
                 execution_duration_seconds,
                 cpu_model,
                 cpu_count,
-                cpu_usage_percent,
                 total_ram_gb,
-                ram_usage_percent,
                 os_name,
-                os_version,
                 code_text,
                 normalized_code,
                 is_scaled,
                 scale_threshold
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 programming_language,
                 execution_count,
@@ -106,11 +109,8 @@ class CodeculateDBManager:
                 execution_duration,
                 sys_info.get('cpu_model'),
                 sys_info.get('cpu_count'),
-                sys_info.get('cpu_usage_percent'),
                 sys_info.get('total_ram_gb'),
-                sys_info.get('ram_usage_percent'),
                 sys_info.get('os_name'),
-                sys_info.get('os_version'),
                 code_text,
                 normalize(code_text, programming_language),
                 is_scaled,
@@ -118,18 +118,17 @@ class CodeculateDBManager:
             ))
 
             conn.commit()
-            return cursor.lastrowid
+            report_id = cursor.lastrowid
+            logger.info(f"Saved execution report with ID: {report_id}")
+            return report_id
 
-        # Hata yönetimi
         except Exception as e:
-            print(f"Error saving execution report: {e}")
+            logger.error(f"Error saving execution report: {str(e)}")
             raise
         finally:
             conn.close()
 
     ################ Benzer execution kaydı olup olmadığını kontrol eder ################
-    # Return değeri: (bool, dict) = (benzer kayıt var mı?, benzer kayıt var ise ilgili kayıtın kendisi)
-    ### Karşılaştırma verileri: normalize edilmiş kod, tekrar sayısı, sistem bilgileri, ölçeklendirme eşiği
     def get_existing_report(
         self,
         code: str,
@@ -145,17 +144,6 @@ class CodeculateDBManager:
         
             normalized_new_code = normalize(code, language)
             
-            # Mantıksal karar ÖNEMLİ!
-            # execution_count değeri scale_threshold’dan küçük veya eşitse:
-            #   → Kod gerçek tekrar sayısı kadar çalıştırılmıştır (is_scaled = 0)
-            #   → Ölçeklendirme yapılmamış kayıt aranır.
-            # execution_count değeri scale_threshold’dan büyükse:
-            #   → Kod sadece scale_threshold kadar çalıştırılıp sonuçlar ölçeklendirilmiştir (is_scaled = 1)
-            #   → Aynı scale_threshold ile kaydedilmiş ölçekli kayıt aranır.
-            #
-            ###!!! Özetle: 10 milyon tekrarlı ama ölçeklenmiş bir sonuç ile 10 milyon kez 
-            ###!!! gerçekten çalıştırılmış bir sonucu birbirine karıştırılmaması için
-            ###!!! ayrım
             if execution_count <= scale_threshold:
                 query = '''
                 SELECT * FROM execution_reports 
@@ -184,21 +172,20 @@ class CodeculateDBManager:
                 '''
                 params = [language, execution_count, sys_info['cpu_model'], sys_info['total_ram_gb'], normalized_new_code, scale_threshold]
 
-            # Verileri al ve ilk satırı row'da tut
             cursor.execute(query, params)
             row = cursor.fetchone()
 
-            # Row var ise aradığımız veri bulunmuş demektir
             if row:
                 columns = [desc[0] for desc in cursor.description]
-                return True, dict(zip(columns, row))
+                result = dict(zip(columns, row))
+                logger.info(f"Found existing report for {language} code with {execution_count} executions")
+                return True, result
 
-            # Buraya gelindi ise ilgili row bulunamamıştır. Return false
+            logger.info(f"No existing report found for {language} code with {execution_count} executions")
             return False, None
 
-        # Hata yönetimi
         except Exception as e:
-            print(f"Error checking similar execution: {e}")
+            logger.error(f"Error checking similar execution: {str(e)}")
             return False, None
         finally:
             conn.close()
@@ -214,13 +201,14 @@ class CodeculateDBManager:
             ORDER BY execution_time DESC
             ''')
 
-            # Columns'ı döndür
             columns = [desc[0] for desc in cursor.description]
-            return [dict(zip(columns, row)) for row in cursor.fetchall()]
+            results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            
+            logger.info(f"Retrieved {len(results)} execution reports")
+            return results
 
-        # Hata yönetimi
         except Exception as e:
-            print(f"Error getting execution reports: {e}")
+            logger.error(f"Error getting execution reports: {str(e)}")
             return []
         finally:
             conn.close()
@@ -228,15 +216,14 @@ class CodeculateDBManager:
     ################ Sistem bilgilerini alır ################
     def _get_system_info(self) -> Dict[str, Any]:
         try:
-            return {
+            info = {
                 'cpu_model': platform.processor() or 'Unknown',
                 'cpu_count': psutil.cpu_count(),
-                'cpu_usage_percent': psutil.cpu_percent(interval=1),
                 'total_ram_gb': round(psutil.virtual_memory().total / (1024 ** 3), 2),
-                'ram_usage_percent': psutil.virtual_memory().percent,
-                'os_name': platform.system(),
-                'os_version': platform.version()
+                'os_name': f"{platform.system()} {platform.release()}"
             }
+            logger.debug(f"Retrieved system info: {info}")
+            return info
         except Exception as e:
-            print(f"Error getting system info: {e}")
+            logger.error(f"Error getting system info: {str(e)}")
             return {}

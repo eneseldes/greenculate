@@ -1,10 +1,21 @@
+/**
+ * CodeculateResults Bileşeni
+ * =================================================================
+ * Kod emisyonu hesaplama sonuçlarını görüntüleyen bileşen. Backend'den
+ * gelen emisyon verilerini kartlar halinde gösterir.
+ */
+
 import { memo } from "react";
 import useFocusAfterRender from "../../../../hooks/useFocusAfterRender";
 import "./CodeculateResults.scss";
 
+/**
+ * CodeEditor her değişimde render'a sebep olmasın diye memo kullanıyoruz
+ * @param {Object} result - Backend'den gelen hesaplama sonuçları
+ */
 const CodeculateResults = memo(function CodeculateResults({ result }) {
+  // Sonuç geldiğinde result container'a focus alma hook'u
   const containerRef = useFocusAfterRender(result);
-
   return (
     <>
       {result && (
@@ -15,7 +26,7 @@ const CodeculateResults = memo(function CodeculateResults({ result }) {
         >
           <div className="title">Hesaplama Sonuçları</div>
           <div className="grid">
-            {/* Total Emissions */}
+            {/* Toplam Emisyon Kartı */}
             <div className="card">
               <div className="card-content">
                 <div className="card-icon green">
@@ -29,8 +40,7 @@ const CodeculateResults = memo(function CodeculateResults({ result }) {
                 </div>
               </div>
             </div>
-
-            {/* Average Emissions */}
+            {/* Ortalama Emisyon Kartı */}
             <div className="card">
               <div className="card-content">
                 <div className="card-icon blue">
@@ -44,8 +54,7 @@ const CodeculateResults = memo(function CodeculateResults({ result }) {
                 </div>
               </div>
             </div>
-
-            {/* Execution Time */}
+            {/* Çalışma Süresi Kartı */}
             <div className="card">
               <div className="card-content">
                 <div className="card-icon purple">
@@ -59,8 +68,7 @@ const CodeculateResults = memo(function CodeculateResults({ result }) {
                 </div>
               </div>
             </div>
-
-            {/* Success Rate */}
+            {/* Başarı Oranı Kartı */}
             <div className="card">
               <div className="card-content">
                 <div className="card-icon green">
@@ -77,12 +85,12 @@ const CodeculateResults = memo(function CodeculateResults({ result }) {
               </div>
             </div>
           </div>
-
-          {/* Last Result Details */}
+          {/* Son Çalıştırma Detayları */}
           {result.last_result && (
             <div className="details">
               <h4 className="title">Son Çalıştırma Detayları</h4>
               <div className="grid">
+                {/* Durum Bilgisi */}
                 <div className="details-item">
                   <p className="label">Durum</p>
                   <p
@@ -93,12 +101,14 @@ const CodeculateResults = memo(function CodeculateResults({ result }) {
                     {result.last_result.success ? "Başarılı" : "Başarısız"}
                   </p>
                 </div>
+                {/* Çalışma Süresi */}
                 <div className="details-item">
                   <p className="label">Çalışma Süresi</p>
                   <p className="value">
                     {result.last_result.execution_time.toFixed(2)} saniye
                   </p>
                 </div>
+                {/* Emisyon Bilgisi */}
                 <div className="details-item">
                   <p className="label">Emisyon</p>
                   <p className="value">
@@ -106,16 +116,14 @@ const CodeculateResults = memo(function CodeculateResults({ result }) {
                   </p>
                 </div>
               </div>
-
-              {/* Output */}
+              {/* Kod Çıktısı (varsa) */}
               {result.last_result.stdout && (
                 <div className="output">
                   <p className="label">Çıktı:</p>
                   <pre>{result.last_result.stdout}</pre>
                 </div>
               )}
-
-              {/* Error */}
+              {/* Hata Mesajı (varsa) */}
               {result.last_result.stderr && (
                 <div className="error">
                   <p className="label">Hata:</p>

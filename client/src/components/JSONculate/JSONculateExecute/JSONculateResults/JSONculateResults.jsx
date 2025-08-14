@@ -1,25 +1,46 @@
+/**
+ * JSONculateResults Bileşeni
+ * =================================================================
+ * JSON emisyonu hesaplama sonuçlarını görüntüleyen bileşen. Üç farklı
+ * JSON parser'ının (json, orjson, ujson) performans karşılaştırmasını gösterir.
+ */
+
+import useFocusAfterRender from "../../../../hooks/useFocusAfterRender";
 import "./JSONculateResults.scss";
 
+/**
+ * JSONculateResults Bileşeni
+ * JSON emisyonu hesaplama sonuçlarını görüntüler
+ * @param {Object} result - Backend'den gelen JSON parse sonuçları
+ */
 function JSONculateResults({ result }) {
+  // Sonuç geldiğinde result container'a focus alma hook'u
+  const containerRef = useFocusAfterRender(result);
+
   return (
     <>
       {result && (
-        <div className="jsonculate-results">
+        <div
+          ref={containerRef}
+          className="jsonculate-results"
+          tabIndex={-1} // focus alabilmesi için
+        >
           <div className="header">
             <h3 className="title">Parse Sonuçları</h3>
+            {/* Ölçeklendirme Bilgisi (varsa) */}
             {result.scaled && (
               <div className="pill pill--amber">
-                1000 tekrar üzerinden ölçeklendirildi
+                {result.scale_threshold} tekrar üzerinden ölçeklendirildi
               </div>
             )}
+            {/* Önbellek Bilgisi (varsa) */}
             {result.from_cache && (
               <div className="pill pill--blue">Önbellekten alındı</div>
             )}
           </div>
-
-          {/* Parser Results */}
+          {/* Parser Sonuçları */}
           <div className="parsers">
-            {/* JSON Parser */}
+            {/* JSON Parser Sonucu */}
             <div className="parser-card">
               <div className="parser-head">
                 <div className="avatar avatar--green">
@@ -45,8 +66,7 @@ function JSONculateResults({ result }) {
                 </div>
               </div>
             </div>
-
-            {/* orjson Parser */}
+            {/* orjson Parser Sonucu */}
             <div className="parser-card">
               <div className="parser-head">
                 <div className="avatar avatar--blue">
@@ -54,9 +74,7 @@ function JSONculateResults({ result }) {
                 </div>
                 <div>
                   <p className="parser-name">orjson</p>
-                  <p className="parser-caption">
-                    Rust-tabanlı Hızlı Parser
-                  </p>
+                  <p className="parser-caption">Rust-tabanlı Hızlı Parser</p>
                 </div>
               </div>
               <div className="stats">
@@ -74,8 +92,7 @@ function JSONculateResults({ result }) {
                 </div>
               </div>
             </div>
-
-            {/* ujson Parser */}
+            {/* ujson Parser Sonucu */}
             <div className="parser-card">
               <div className="parser-head">
                 <div className="avatar avatar--purple">

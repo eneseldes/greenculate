@@ -1,3 +1,10 @@
+/**
+ * CodeculateExecute Bileşeni
+ * =================================================================
+ * Kod emisyonu hesaplama formu. Kullanıcıların farklı programlama dillerinde
+ * kod yazmasını, çalıştırmasını ve karbon emisyonunu hesaplamasını sağlar.
+ */
+
 import { useState } from "react";
 import CodeculateResults from "./CodeculateResults/CodeculateResults";
 import CodeEditor from "../../Editors/CodeEditor";
@@ -8,7 +15,6 @@ function CodeculateExecute() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-
   const [formData, setFormData] = useState({
     code: `# Python example code
 import time
@@ -28,6 +34,10 @@ for i in range(10):
     scaleThreshold: 10000,
   });
 
+  /**
+   * Form alanları değiştiğinde çağrılan handler
+   * @param {Event} e - Input change event'i
+   */
   const handleLanguageChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -37,14 +47,19 @@ for i in range(10):
     }));
   };
 
+  /**
+   * Form gönderildiğinde çağrılan handler
+   * Backend'e kod gönderir ve emisyon hesaplaması yapar
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setResult(null);
-    setLoading(true);
-    setError(null);
+    setResult(null);    // Önceki sonuçları temizle
+    setLoading(true);   // Loading durumunu başlat
+    setError(null);     // Önceki hataları temizle
 
     try {
-      const response = await fetch("http://localhost:5000/calculate", {
+      // Python backend'e POST isteği gönder
+      const response = await fetch("http://localhost:5000/codeculate/execute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -55,6 +70,7 @@ for i in range(10):
         }),
       });
 
+      // HTTP hata kontrolü
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(
@@ -62,6 +78,7 @@ for i in range(10):
         );
       }
 
+      // Başarılı yanıtı al ve state'e kaydet
       const data = await response.json();
       setResult(data);
     } catch (err) {
@@ -73,9 +90,7 @@ for i in range(10):
 
   return (
     <AnimatedItem>
-      {/* Codeculate Form */}
       <form className="form codeculate-form" onSubmit={handleSubmit}>
-        {/* Language and Repeat Row */}
         <div className="form-row">
           <div className="form-group">
             <label>Programlama Dili</label>
@@ -121,7 +136,6 @@ for i in range(10):
             />
           </div>
         </div>
-        {/* Code Editor */}
         <div className="form-group">
           <label>Kodunuz</label>
           <CodeEditor

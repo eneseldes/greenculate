@@ -1,3 +1,10 @@
+/**
+ * CodeculateHistory Bileşeni
+ * =================================================================
+ * Kod emisyonu hesaplama geçmişini görüntüleyen bileşen. Kullanıcıların
+ * daha önce çalıştırdıkları kodların emisyon sonuçlarını listeler.
+ */
+
 import { useState, useEffect } from "react";
 import AnimatedItem from "../../AnimatedItem";
 import "./CodeculateHistory.scss";
@@ -11,17 +18,23 @@ function CodeExecutionHistory() {
     fetchHistory();
   }, []);
 
+  // Backend'den geçmiş kayıtları çeker
   const fetchHistory = async () => {
     try {
-      const response = await fetch("http://localhost:5000/history");
+      // Backend'e istek gönder
+      const response = await fetch("http://localhost:5000/codeculate/history");
+      
+      // HTTP hata kontrolü
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+      
+      // Başarılı yanıtı al ve state'e kaydet
       const data = await response.json();
       setHistory(data);
       setError(null);
     } catch (error) {
-      setError(err.message || "Geçmiş yüklenirken bir hata oluştu");
+      setError(error.message || "Geçmiş yüklenirken bir hata oluştu");
     } finally {
       setLoading(false);
     }
@@ -41,8 +54,10 @@ function CodeExecutionHistory() {
 
   return (
     <AnimatedItem className="codeculate-history">
+      {/* Geçmiş kayıt kartı */}
       {history.map((record, index) => (
         <div key={index} className="record">
+          {/* Kayıt başlığı */}
           <div className="record-header">
             <div className="header-left">
               <div className="icon-circle">📊</div>
@@ -60,6 +75,7 @@ function CodeExecutionHistory() {
               )}
             </div>
           </div>
+          {/* Dil ve Süre Bilgileri */}
           <div className="record-row">
             <div className="record-group">
               <p className="label">Language</p>
@@ -75,12 +91,13 @@ function CodeExecutionHistory() {
               </p>
             </div>
           </div>
+          {/* Emisyon Bilgileri */}
           <div className="record-row">
             <div className="record-group">
               <p className="label">Total Emissions</p>
               <p className="value green">
                 {record.total_carbon_emission
-                  ? record.total_carbon_emission.toExponential(4)
+                  ? record.total_carbon_emission.toFixed(6)
                   : "0"}{" "}
                 (kg CO₂)
               </p>
@@ -89,17 +106,21 @@ function CodeExecutionHistory() {
               <p className="label">Per Execution</p>
               <p className="value green">
                 {record.carbon_per_execution
-                  ? record.carbon_per_execution.toExponential(4)
+                  ? record.carbon_per_execution.toFixed(6)
                   : "0"}{" "}
                 (kg CO₂)
               </p>
             </div>
           </div>
-          {/* System Info */}
+          {/* Sistem Bilgileri */}
           <div className="record-system">
             <div className="record-group">
               <p className="label">CPU Model</p>
               <p className="value system">{record.cpu_model}</p>
+            </div>
+            <div className="record-group">
+              <p className="label">CPU Sayısı</p>
+              <p className="value system">{record.cpu_count} çekirdek</p>
             </div>
             <div className="record-group">
               <p className="label">RAM</p>
@@ -108,15 +129,11 @@ function CodeExecutionHistory() {
               </p>
             </div>
             <div className="record-group">
-              <p className="label">Location</p>
-              <p className="value system">
-                {record.country_name || "Unknown"} (
-                {record.country_iso_code || "N/A"})
-              </p>
+              <p className="label">İşletim Sistemi</p>
+              <p className="value system">{record.os_name}</p>
             </div>
           </div>
-
-          {/* Code Preview */}
+          {/* Kod Önizleme */}
           <div className="record-code">
             <p className="label">Code Preview</p>
             <pre>{record.code_text}</pre>

@@ -1,16 +1,45 @@
+/**
+ * ModeSelector Bileşeni
+ * =================================================================
+ * Uygulamada HTTPculate, Codeculate ve JSONculate modları arasında 
+ * geçiş yapılmasını sağlayan yapı.
+ */
+
 import { useRef, useEffect } from "react";
 import AnimatedItem from "../AnimatedItem";
 import "./ModeSelector.scss";
 
+/**
+ * @param {Object} value - Aktif seçili mod bilgisi
+ * @param {Function} onChange - Mod değiştiğinde çağrılacak callback fonksiyonu
+ * @param {Array} modes - Kullanılabilir modların listesi (varsayılan: boş dizi)
+ */
 function ModeSelector({ value, onChange, modes = [] }) {
+  // mode-list genişliği hesaplamak için
   const listRef = useRef(null);
 
   useEffect(() => {
-    if (listRef.current) {
-      const tabWidth = listRef.current.clientWidth / modes.length;
-      listRef.current.style.setProperty("--tab-width", `${tabWidth}px`);
-    }
-  }, [modes.length]);
+    // Tab genişliklerini hesaplayan ve dinamik değişken olarak ayarlayan fonksiyon
+    // Kayma efekti için
+    const calculateTabWidths = () => {
+      if (listRef.current) {
+        const tabWidth = listRef.current.clientWidth / modes.length;
+        
+        // Bu değer SCSS dosyasında kullanılacak, dinamik değişken
+        listRef.current.style.setProperty("--tab-width", `${tabWidth}px`);
+      }
+    };
+
+    // İlk yüklemede hesapla
+    calculateTabWidths();
+
+    // Window resize event listener ekle
+    window.addEventListener('resize', calculateTabWidths);
+
+    return () => {
+      window.removeEventListener('resize', calculateTabWidths);
+    };
+  }, []);
 
   return (
     <AnimatedItem
@@ -19,10 +48,11 @@ function ModeSelector({ value, onChange, modes = [] }) {
       y={-30}
       className="mode-selector"
       data-active-index={value.index}
-      style={{ "--active-index": value.index }}
+      style={{ "--active-index": value.index }}  // Kayma efekti için dinamik variable
     >
       <div className="mode-selector-wrapper">
         <div className="mode-list" ref={listRef}>
+          {/* Mode butonları */}
           {modes.map((mode) => {
             const isActive = mode.id === value.id;
             return (
@@ -37,6 +67,8 @@ function ModeSelector({ value, onChange, modes = [] }) {
               </button>
             );
           })}
+          
+          {/* Aktif mod göstergesi - animasyonlu arka plan için */}
           <div className="active-mode-indicator">
             <div className="filler"></div>
           </div>

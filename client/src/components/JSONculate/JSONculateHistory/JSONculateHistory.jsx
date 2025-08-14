@@ -1,3 +1,10 @@
+/**
+ * JSONculateHistory Bileşeni
+ * =================================================================
+ * JSON emisyonu hesaplama geçmişini görüntüleyen bileşen. Kullanıcıların
+ * daha önce parse ettikleri JSON'ların emisyon sonuçlarını listeler.
+ */
+
 import { useState, useEffect } from "react";
 import AnimatedItem from "../../AnimatedItem";
 import "./JSONculateHistory.scss";
@@ -11,14 +18,18 @@ function JSONParsingHistory() {
     fetchHistory();
   }, []);
 
+  // Backend'den geçmiş kayıtları çeker
   const fetchHistory = async () => {
     try {
+      // Python backend'e istek gönder
       const response = await fetch("http://localhost:5000/jsonculate/history");
 
+      // HTTP hata kontrolü
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+      // Başarılı yanıtı al ve state'e kaydet
       const data = await response.json();
       setHistory(data);
       setError(null);
@@ -43,9 +54,10 @@ function JSONParsingHistory() {
 
   return (
     <AnimatedItem className="jsonculate-history">
+      {/* Geçmiş kayıt kartı */}
       {history.map((record) => (
         <div className="record" key={record.id}>
-          {/* Header */}
+          {/* Kayıt Başlığı */}
           <div className="record-header">
             <div className="header-left">
               <div className="icon-circle">📊</div>
@@ -55,7 +67,9 @@ function JSONParsingHistory() {
               </div>
             </div>
             <div className="tags">
+              {/* Tekrar sayısı etiketi */}
               <div className="tag-green">{record.iterations}x tekrar</div>
+              {/* Ölçeklendirme bilgisi etiketi */}
               {Boolean(record.is_scaled) && record.scale_threshold != null && (
                 <div className="tag-yellow">
                   {record.scale_threshold} tekrar üzerinden ölçeklendirildi
@@ -63,8 +77,7 @@ function JSONParsingHistory() {
               )}
             </div>
           </div>
-
-          {/* Results Grid */}
+          {/* Parser Sonuçları Grid'i */}
           <div className="results-grid">
             <div className="result-box">
               <div className="result-header">
@@ -84,7 +97,6 @@ function JSONParsingHistory() {
                 </div>
               </div>
             </div>
-
             <div className="result-box">
               <div className="result-header">
                 <span>⚡</span>
@@ -105,7 +117,6 @@ function JSONParsingHistory() {
                 </div>
               </div>
             </div>
-
             <div className="result-box">
               <div className="result-header">
                 <span>🚀</span>
@@ -124,14 +135,12 @@ function JSONParsingHistory() {
                 </div>
               </div>
             </div>
-
             <div className="result-box">
               <p className="label">JSON Boyutu</p>
               <p className="size">{(record.json_size / 1024).toFixed(2)} KB</p>
             </div>
           </div>
-
-          {/* System Info */}
+          {/* Sistem Bilgileri */}
           <div className="system-info">
             <div className="system-info-title">Sistem Bilgileri</div>
             <div className="system-grid">
@@ -153,8 +162,7 @@ function JSONParsingHistory() {
               </div>
             </div>
           </div>
-
-          {/* JSON Preview */}
+          {/* JSON Önizleme */}
           <div className="json-preview">
             <p className="label">JSON İçeriği</p>
             <pre>{record.json_input}</pre>

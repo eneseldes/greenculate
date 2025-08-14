@@ -1,3 +1,10 @@
+/**
+ * CodeEditor Bileşeni
+ * =================================================================
+ * CodeMirror tabanlı kod editörü bileşeni. Farklı programlama
+ * dilleri için syntax highlighting, otomatik tamamlama ve tema desteği sağlar.
+ */
+
 import { useEffect, useState, useMemo } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
@@ -7,8 +14,15 @@ import { cpp } from "@codemirror/lang-cpp";
 import { EditorView } from "@codemirror/view";
 import "./CodeEditor.scss";
 
+/**
+ * @param {string} language - Programlama dili (python, javascript, java, cpp, c)
+ * @param {string} code - Editörde gösterilecek kod
+ * @param {Function} onCodeChange - Kod değiştiğinde çağrılacak callback
+ * @param {string} height - Editör yüksekliği
+ */
 function CodeEditor({ language, code, onCodeChange, height = "400px" }) {
-  // Her dil için son yazılan kodu sakla (parent'ta tutmaya gerek yok)
+  // Her dil için son yazılan kodu sakla
+  // Bu sayede dil değiştirildiğinde önceki kodlar kaybolmaz
   const [savedCodes, setSavedCodes] = useState({
     python: null,
     javascript: null,
@@ -17,7 +31,8 @@ function CodeEditor({ language, code, onCodeChange, height = "400px" }) {
     c: null,
   });
 
-  // Örnek kodlar (editor'e özgü olduğu için burada dursun)
+  // Örnek kodlar
+  // useMemo ile gereksiz yeniden oluşturmayı önlüyoruz
   const examples = useMemo(
     () => ({
       python: `# Python example code
@@ -92,11 +107,10 @@ int main() {
   useEffect(() => {
     const saved = savedCodes[language];
     const next = saved !== null ? saved : examples[language] || "";
-    // Parent'ta formData.code güncellensin
     onCodeChange(next);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
 
+  // Dil için uygun CodeMirror extension'ını döndürür
   const getLanguageExtension = (lang) => {
     switch (lang.toLowerCase()) {
       case "python":
@@ -107,13 +121,13 @@ int main() {
         return java();
       case "cpp":
       case "c":
-        return cpp();
+        return cpp(); // C için de C++ extension'ını kullanıyoruz
       default:
-        return python();
+        return python(); // Varsayılan olarak Python
     }
   };
 
-  // Tema (editöre özgü)
+  // Editör teması
   const customTheme = useMemo(
     () =>
       EditorView.theme({
@@ -127,17 +141,29 @@ int main() {
         ".cm-panels.cm-panels-top": { borderBottom: "1px solid #e5e7eb" },
         ".cm-panels.cm-panels-bottom": { borderTop: "1px solid #e5e7eb" },
         ".cm-searchMatch": { backgroundColor: "#fef3c7" },
-        ".cm-searchMatch.cm-searchMatch-selected": { backgroundColor: "#f59e0b" },
+        ".cm-searchMatch.cm-searchMatch-selected": {
+          backgroundColor: "#f59e0b",
+        },
         ".cm-activeLine": { backgroundColor: "#f0fdf4" },
         ".cm-selectionMatch": { backgroundColor: "#d1fae5" },
-        "&.cm-focused .cm-matchingBracket, &.cm-focused .cm-nonmatchingBracket": {
-          color: "#059669",
-          borderBottom: "1px solid #059669",
+        "&.cm-focused .cm-matchingBracket, &.cm-focused .cm-nonmatchingBracket":
+          {
+            color: "#059669",
+            borderBottom: "1px solid #059669",
+          },
+        ".cm-gutters": {
+          backgroundColor: "#f9fafb",
+          color: "#6b7280",
+          border: "none",
         },
-        ".cm-gutters": { backgroundColor: "#f9fafb", color: "#6b7280", border: "none" },
-        ".cm-activeLineGutter": { backgroundColor: "#f0fdf4", color: "#059669" },
+        ".cm-activeLineGutter": {
+          backgroundColor: "#f0fdf4",
+          color: "#059669",
+        },
         ".cm-foldGutter .cm-gutterElement": { color: "#6b7280" },
-        ".cm-activeLineGutter .cm-foldGutter .cm-gutterElement": { color: "#059669" },
+        ".cm-activeLineGutter .cm-foldGutter .cm-gutterElement": {
+          color: "#059669",
+        },
       }),
     []
   );
@@ -148,34 +174,34 @@ int main() {
         className="code-editor"
         value={code}
         onChange={(val) => {
-          onCodeChange(val); // parent formData.code güncellenir
+          onCodeChange(val);
           setSavedCodes((prev) => ({ ...prev, [language]: val })); // bu dil için kodu hatırla
         }}
         extensions={[getLanguageExtension(language), customTheme]}
         height={height}
         basicSetup={{
-          lineNumbers: true,
-          highlightActiveLineGutter: true,
-          highlightSpecialChars: true,
-          foldGutter: true,
-          drawSelection: true,
-          dropCursor: true,
-          allowMultipleSelections: true,
-          indentOnInput: true,
-          bracketMatching: true,
-          closeBrackets: true,
-          autocompletion: true,
-          rectangularSelection: true,
-          crosshairCursor: true,
-          highlightActiveLine: true,
-          highlightSelectionMatches: true,
-          closeBracketsKeymap: true,
-          defaultKeymap: true,
-          searchKeymap: true,
-          historyKeymap: true,
-          foldKeymap: true,
-          completionKeymap: true,
-          lintKeymap: true,
+          lineNumbers: true, // Satır numaraları
+          highlightActiveLineGutter: true, // Aktif satır gutter'ını vurgula
+          highlightSpecialChars: true, // Özel karakterleri vurgula
+          foldGutter: true, // Kod katlama gutter'ı
+          drawSelection: true, // Seçimi çiz
+          dropCursor: true, // Sürükle-bırak cursor'ı
+          allowMultipleSelections: true, // Çoklu seçim
+          indentOnInput: true, // Girişte otomatik girinti
+          bracketMatching: true, // Parantez eşleştirme
+          closeBrackets: true, // Otomatik parantez kapatma
+          autocompletion: true, // Otomatik tamamlama
+          rectangularSelection: true, // Dikdörtgen seçim
+          crosshairCursor: true, // Crosshair cursor
+          highlightActiveLine: true, // Aktif satırı vurgula
+          highlightSelectionMatches: true, // Seçim eşleşmelerini vurgula
+          closeBracketsKeymap: true, // Parantez kapatma kısayolları
+          defaultKeymap: true, // Varsayılan kısayollar
+          searchKeymap: true, // Arama kısayolları
+          historyKeymap: true, // Geçmiş kısayolları
+          foldKeymap: true, // Katlama kısayolları
+          completionKeymap: true, // Tamamlama kısayolları
+          lintKeymap: true, // Lint kısayolları
         }}
       />
     </div>

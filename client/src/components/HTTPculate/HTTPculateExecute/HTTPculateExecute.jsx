@@ -1,11 +1,21 @@
+/**
+ * HTTPculateExecute Bileşeni
+ * =================================================================
+ * HTTP isteklerinin karbon emisyonunu hesaplama formu. Farklı HTTP kütüphaneleri
+ * kullanarak yapılan isteklerin çevresel etkisini ölçer.
+ */
+
 import React, { useState } from "react";
 import axios from "axios";
-import "./HTTPculateExecute.scss";
 import SubmitButton from "../../SubmitButton/SubmitButton";
 import HTTPculateResults from "./HTTPculateResults/HTTPculateResults";
 import AnimatedItem from "../../AnimatedItem";
+import "./HTTPculateExecute.scss";
 
+// Desteklenen HTTP kütüphaneleri listesi
 const SUPPORTED_LIBRARIES = ["axios", "node-fetch", "http"];
+
+// Desteklenen HTTP metodları listesi
 const HTTP_METHODS = [
   "GET",
   "POST",
@@ -21,23 +31,28 @@ function HTTPRequestExecute() {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
 
+  // Backend'e HTTP isteği gönderir ve emisyon hesaplaması yapar
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
+    // Form verilerini al
     const form = new FormData(e.target);
     const library = form.get("library");
     const method = form.get("method");
     const url = form.get("url");
 
     try {
-      const result = await axios.post("http://localhost:3000/request", {
+      // Node.js backend'e POST isteği gönder
+      const result = await axios.post("http://localhost:3000/httpculate/execute", {
         library,
         method,
         url,
-        repeat: 1,
+        repeat: 1, // Burası formdan gelecek
       });
+      
+      // Başarılı yanıtı state'e kaydet
       setResponse(result.data);
     } catch (err) {
       setError(err.response?.data?.error || err.message);

@@ -13,30 +13,3 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
 }
 
-main {
-  width: 90%;
-  margin: 1.25rem auto;
-
-  header {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  
-    .header-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: $greens-700;
-    }
-  
-    .header-subtitle {
-      font-size: 18px;
-      font-weight: 500;
-      color: $greens-500;
-    }
-  }
-
-  .mode-section {
-    margin-inline: 8rem;
-  }
-}

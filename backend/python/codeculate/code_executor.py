@@ -19,13 +19,11 @@ import tempfile
 import subprocess
 import time
 from codecarbon import EmissionsTracker
-import logging
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, Tuple, List
+from config.logging_config import setup_logger
 
-# Logging setup
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = setup_logger('code_executor')
 
 ################ Desteklenen diller ve uzantıları ################
 LANG_FILE_EXTENSIONS = {
@@ -60,9 +58,13 @@ INTERPRETERS = {
 
 ################========== CodeExecutor ==========################
 class CodeExecutor:
+    def __init__(self):
+        logger.info("CodeExecutor initialized with supported languages: " + ", ".join(LANG_FILE_EXTENSIONS.keys()))
+
     ################ Kodu çalıştırır ve emisyon hesaplaması yapar ################
-    # Database'de benzer kod var ise benzer kodun sonuçlarını döndürür.
     def process(self, code: str, language: str, repeat: int, scale_threshold: int, timeout: int = 30, db_manager=None) -> Dict[str, Any]:
+        logger.info(f"Processing {language} code with {repeat} repetitions (threshold: {scale_threshold})")
+        
         # Benzer kod kontrolü
         has_similar, similar_record = db_manager.get_existing_report(
             code=code,
@@ -73,6 +75,7 @@ class CodeExecutor:
 
         # Benzer kod var ise benzer kodun sonuçlarını döndür
         if has_similar:
+            logger.info("Found cached results, returning from database")
             return {
                 'total_emissions': similar_record['total_carbon_emission'],
                 'avg_emissions': similar_record['carbon_per_execution'],
@@ -98,10 +101,13 @@ class CodeExecutor:
         temp_file = None
         try:
             temp_file = self.create_temp_code_file(code, language)
+            logger.debug(f"Created temporary file: {temp_file}")
+            
             cmd, error = self.get_run_command(temp_file, language)
 
             # Compile hatası var ise, hata mesajıyla veriyi döndür
             if error:
+                logger.error(f"Compilation error: {error}")
                 return {
                     'total_emissions': 0,
                     'avg_emissions': 0,
@@ -126,6 +132,9 @@ class CodeExecutor:
             # Tekrar sayısı, ölçeklendirme eşiğinden büyük ise ölçeklendirme ayarla
             actual_repeat = min(scale_threshold, repeat)
             scale_factor = repeat / actual_repeat if repeat > scale_threshold else 1
+            
+            if repeat > scale_threshold:
+                logger.info(f"Scaling enabled: actual_repeat={actual_repeat}, scale_factor={scale_factor}")
 
             # Çıktı sonuçları
             combined_output = ""
@@ -133,18 +142,26 @@ class CodeExecutor:
             all_successful = True
 
             # Codecarbon'u başlat
+            logger.info("Starting emissions tracking")
             tracker = EmissionsTracker()
             tracker.start()
             start_time = time.time()
 
             for i in range(actual_repeat):
+                logger.debug(f"Running iteration {i+1}/{actual_repeat}")
                 try:
                     result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
                     success = (result.returncode == 0)
                     stdout = result.stdout
                     stderr = result.stderr
-                # Timeout hatası, exception fırlat
+                    
+                    if success:
+                        logger.debug(f"Iteration {i+1} completed successfully")
+                    else:
+                        logger.warning(f"Iteration {i+1} failed with error: {stderr}")
+                        
                 except subprocess.TimeoutExpired:
+                    logger.error(f"Iteration {i+1} timed out after {timeout} seconds")
                     success = False
                     stdout = ""
                     stderr = f"Execution timeout ({timeout} seconds)"
@@ -156,20 +173,25 @@ class CodeExecutor:
                 if stderr:
                     combined_error += f"=== Run {i+1}/{actual_repeat} Error ===\n{stderr}\n"
                 if "Execution timeout" in stderr:
+                    logger.warning("Stopping execution due to timeout")
                     break
 
             # Codecarbon'u durdur
             execution_time = time.time() - start_time
             emissions = tracker.stop()
+            logger.info(f"Execution completed: {execution_time:.2f}s, {emissions:.6f}g CO2")
 
             # Gerekli ise ölçeklendirme yap
             if repeat > scale_threshold:
                 execution_time *= scale_factor
                 emissions *= scale_factor
+                logger.info(f"Scaled results: {execution_time:.2f}s, {emissions:.6f}g CO2")
 
         # Hata yönetimi
         except Exception as e:
-            tracker.stop()
+            logger.error(f"Error during execution: {str(e)}", exc_info=True)
+            if 'tracker' in locals() and tracker.is_tracking:
+                tracker.stop()
             return {
                 'total_emissions': 0,
                 'avg_emissions': 0,
@@ -212,6 +234,7 @@ class CodeExecutor:
         # Verileri database'e kaydet
         if successful_runs > 0:
             try:
+                logger.info("Saving results to database")
                 db_manager.save_report(
                     programming_language=language,
                     execution_count=repeat,
@@ -225,6 +248,7 @@ class CodeExecutor:
                 logger.error(f"Error saving to database: {str(e)}", exc_info=True)
 
         # Sonuçları döndür (frontend'e gönderilecek)
+        logger.info("Processing completed successfully")
         return {
             'total_emissions': total_emissions,
             'avg_emissions': avg_emissions,
@@ -241,62 +265,79 @@ class CodeExecutor:
         }
 
     ################ Kodun çalıştırılabilmesi için run komutunu döndürür ###############
-    # Return değeri: (komut, hata)
-    # Komut: kodun çalıştırılabilmesi için run komutu
-    # Hata: (var ise) interpreter veya compiler'ın dönderdiği hata mesajı
     def get_run_command(self, file_path: str, language: str) -> Tuple[List[str], str]:
         language = language.lower()
+        logger.debug(f"Getting run command for {language} file: {file_path}")
+        
         if language in COMPILERS:
             return self.compile_code(file_path, language)
         if language in INTERPRETERS:
+            logger.debug(f"Using interpreter command: {INTERPRETERS[language](file_path)}")
             return INTERPRETERS[language](file_path), None
+            
+        logger.error(f"Unsupported language: {language}")
         return None, f"Unsupported language: {language}"
 
     ################ Compile edilebilen kodu compile eder ###############
-    # Return değeri: (komut, hata)
-    # Komut: compile edilen kodun çalıştırılabilmesi için run komutu
-    # Hata: (var ise) compiler'ın dönderdiği hata mesajı
     def compile_code(self, file_path: str, language: str) -> Tuple[List[str], str]:
-        # İlgili dil compiler değil ise geç
         if language not in COMPILERS:
             return None, None
 
-        # İlgili kodun compile ve run komutlarını al
+        logger.info(f"Compiling {language} code")
         compile_cmd, run_cmd = COMPILERS[language](file_path)
+        logger.debug(f"Compile command: {compile_cmd}")
+        logger.debug(f"Run command: {run_cmd}")
 
-        # Alınan komutla dosyayı compile et
-        compile_result = subprocess.run(compile_cmd, capture_output=True, text=True)
+        try:
+            compile_result = subprocess.run(compile_cmd, capture_output=True, text=True)
 
-        # Compile başarısız
-        if compile_result.returncode != 0:
-            return None, f"Compilation Error:\n{compile_result.stderr}"
+            if compile_result.returncode != 0:
+                logger.error(f"Compilation failed: {compile_result.stderr}")
+                return None, f"Compilation Error:\n{compile_result.stderr}"
 
-        # Compile başarılı
-        return run_cmd, None
+            logger.info("Compilation successful")
+            return run_cmd, None
+            
+        except Exception as e:
+            logger.error(f"Error during compilation: {str(e)}", exc_info=True)
+            return None, f"Compilation Error: {str(e)}"
 
     ################ Kodun çalıştırılabilmesi için Main isimli geçici bir dosya oluşturur ###############
     def create_temp_code_file(self, code: str, language: str) -> str:
-        temp_dir = tempfile.mkdtemp()
-        # Kodun diline göre uzantı oluşturur
-        file_name = 'Main' + LANG_FILE_EXTENSIONS[language.lower()]
-        # Dosya yolunu oluşturur
-        temp_file_path = os.path.join(temp_dir, file_name)
-        # Kod içeriğini dosyaya yazdırır
-        with open(temp_file_path, 'w', encoding='utf-8') as temp_file:
-            temp_file.write(code)
-        return temp_file_path
+        try:
+            temp_dir = tempfile.mkdtemp()
+            file_name = 'Main' + LANG_FILE_EXTENSIONS[language.lower()]
+            temp_file_path = os.path.join(temp_dir, file_name)
+            
+            with open(temp_file_path, 'w', encoding='utf-8') as temp_file:
+                temp_file.write(code)
+                
+            logger.debug(f"Created temporary file: {temp_file_path}")
+            return temp_file_path
+            
+        except Exception as e:
+            logger.error(f"Error creating temporary file: {str(e)}", exc_info=True)
+            raise
 
     ################ Geçişi olarak oluşturulan dosyaları ve klasörü siler ###############
     def cleanup_temp_files(self, temp_file: str):
         try:
             temp_dir = os.path.dirname(temp_file)
+            logger.debug(f"Cleaning up temporary directory: {temp_dir}")
+            
             for ext in ['.class', '.exe', '']:
                 compiled_file = os.path.join(temp_dir, 'Main' + ext)
                 if os.path.exists(compiled_file):
                     os.unlink(compiled_file)
+                    logger.debug(f"Removed file: {compiled_file}")
+                    
             if os.path.exists(temp_file):
                 os.unlink(temp_file)
+                logger.debug(f"Removed temporary file: {temp_file}")
+                
             if os.path.exists(temp_dir):
                 os.rmdir(temp_dir)
+                logger.debug(f"Removed temporary directory: {temp_dir}")
+                
         except Exception as e:
-            logger.error(f"Error cleaning up temporary files: {str(e)}")
+            logger.error(f"Error cleaning up temporary files: {str(e)}", exc_info=True)

@@ -1,10 +1,17 @@
+/**
+ * JSONculateExecute Bileşeni
+ * =================================================================
+ * JSON emisyonu hesaplama formu. Farklı JSON parser'larının (json, orjson, ujson)
+ * performansını karşılaştırır ve karbon emisyonunu hesaplar.
+ */
+
 import { useState } from "react";
 import axios from "axios";
 import JSONEditor from "../../Editors/JSONEditor";
 import JSONculateResults from "./JSONculateResults/JSONculateResults";
 import SubmitButton from "../../SubmitButton/SubmitButton";
-import "./JSONculateExecute.scss";
 import AnimatedItem from "../../AnimatedItem";
+import "./JSONculateExecute.scss";
 
 function JSONculatePanel() {
   const [jsonInput, setJsonInput] = useState(`{
@@ -54,6 +61,7 @@ function JSONculatePanel() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Backend'e JSON gönderir ve parser karşılaştırması yapar
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -61,16 +69,18 @@ function JSONculatePanel() {
     setResult(null);
 
     try {
-      const response = await fetch("http://localhost:5000/jsonculate", {
+      // Python backend'e POST isteği gönder
+      const response = await fetch("http://localhost:5000/jsonculate/execute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-            json: jsonInput,
-            repeat: parseInt(repeat, 10),
-            scaleThreshold: parseInt(scaleThreshold, 10),
-          }),
+        body: JSON.stringify({
+          json: jsonInput,
+          repeat: parseInt(repeat, 10),
+          scaleThreshold: parseInt(scaleThreshold, 10),
+        }),
       });
 
+      // HTTP hata kontrolü
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(
@@ -78,6 +88,7 @@ function JSONculatePanel() {
         );
       }
 
+      // Başarılı yanıtı al ve state'e kaydet
       const data = await response.json();
       setResult(data);
     } catch (err) {
@@ -105,7 +116,6 @@ function JSONculatePanel() {
                     kullanılan temel parser.
                   </p>
                 </div>
-
                 <div className="parser-card">
                   <div className="row">
                     <span className="icon">⚡</span>
@@ -116,7 +126,6 @@ function JSONculatePanel() {
                     JSON'lar için optimize edilmiş.
                   </p>
                 </div>
-
                 <div className="parser-card">
                   <div className="row">
                     <span className="icon">🚀</span>
@@ -129,8 +138,6 @@ function JSONculatePanel() {
                 </div>
               </div>
             </div>
-
-            {/* repeat Input */}
             <div className="form-group">
               <label>Tekrar Sayısı</label>
               <input
@@ -140,8 +147,6 @@ function JSONculatePanel() {
                 onChange={(e) => setRepeat(e.target.value)}
               />
             </div>
-
-            {/* scale threshold Input */}
             <div className="form-group">
               <div className="label-with-info">
                 <label>Ölçeklendirme Eşiği</label>
@@ -157,8 +162,6 @@ function JSONculatePanel() {
             </div>
             <SubmitButton loading={loading} />
           </div>
-
-          {/* JSON Editor */}
           <div className="form-group editor-area">
             <label>JSON İçeriği</label>
             <JSONEditor

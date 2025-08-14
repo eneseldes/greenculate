@@ -5,7 +5,6 @@ const fs = require("fs");
 const path = require("path");
 const dns = require("dns").promises;
 
-// node-fetch'i dinamik olarak import et
 let fetch;
 (async () => {
   const { default: nodeFetch } = await import('node-fetch');
@@ -179,6 +178,25 @@ app.get("/httpculate/history", (req, res) => {
     res.json(JSON.parse(data));
   } catch {
     res.json([]);
+  }
+});
+
+// Toplam emisyon verilerini al
+app.get("/total-emission", (req, res) => {
+  try {
+    const data = fs.readFileSync(historyPath);
+    const history = JSON.parse(data);
+    
+    // Tüm kayıtların emisyonlarını topla (gram cinsinden)
+    const totalEmissions = history.reduce((total, entry) => total + entry.estimatedCO2, 0);
+    
+    // Gram'dan kg'a çevir
+    res.json({
+      http_emissions: totalEmissions / 1000 // gram to kg
+    });
+  } catch (error) {
+    console.error("Toplam emisyon hesaplama hatası:", error);
+    res.status(500).json({ error: "Toplam emisyon hesaplanamadı" });
   }
 });
 
