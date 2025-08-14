@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AnimatedItem from "../../AnimatedItem";
 import "./CodeculateHistory.scss";
 
 function CodeExecutionHistory() {
@@ -35,29 +36,46 @@ function CodeExecutionHistory() {
   }
 
   if (history.length === 0) {
-    return <div className="error">Geçmiş yüklenirken bir hata oluştu.</div>;
+    return <div className="loading">Henüz hiçbir kod çalıştırılmadı.</div>;
   }
 
   return (
-    <div className="codeculate-history">
+    <AnimatedItem className="codeculate-history">
       {history.map((record, index) => (
         <div key={index} className="record">
+          <div className="record-header">
+            <div className="header-left">
+              <div className="icon-circle">📊</div>
+              <div>
+                <h3>Codeculate Raporu</h3>
+                <p>{new Date(record.execution_time).toLocaleString()}</p>
+              </div>
+            </div>
+            <div className="tags">
+              <div className="tag-green">{record.execution_count}x tekrar</div>
+              {Boolean(record.is_scaled) && record.scale_threshold != null && (
+                <div className="tag-yellow">
+                  {record.scale_threshold} tekrar üzerinden ölçeklendirildi
+                </div>
+              )}
+            </div>
+          </div>
           <div className="record-row">
-            {/* Language and Timestamp */}
             <div className="record-group">
               <p className="label">Language</p>
               <p className="value">{record.programming_language}</p>
             </div>
             <div className="record-group">
-              <p className="label">Execution Time</p>
+              <p className="label">Duration</p>
               <p className="value">
-                {new Date(record.execution_time).toLocaleString()}
+                {record.execution_duration_seconds
+                  ? record.execution_duration_seconds.toFixed(2)
+                  : "0"}
+                s
               </p>
             </div>
           </div>
-
-          <div className="record-metrics">
-            {/* Metrics */}
+          <div className="record-row">
             <div className="record-group">
               <p className="label">Total Emissions</p>
               <p className="value green">
@@ -76,21 +94,7 @@ function CodeExecutionHistory() {
                 (kg CO₂)
               </p>
             </div>
-            <div className="record-group">
-              <p className="label">Execution Count</p>
-              <p className="value">{record.execution_count}x</p>
-            </div>
-            <div className="record-group">
-              <p className="label">Duration</p>
-              <p className="value">
-                {record.execution_duration_seconds
-                  ? record.execution_duration_seconds.toFixed(2)
-                  : "0"}
-                s
-              </p>
-            </div>
           </div>
-
           {/* System Info */}
           <div className="record-system">
             <div className="record-group">
@@ -119,7 +123,7 @@ function CodeExecutionHistory() {
           </div>
         </div>
       ))}
-    </div>
+    </AnimatedItem>
   );
 }
 

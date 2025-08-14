@@ -3,6 +3,7 @@ import axios from "axios";
 import "./HTTPculateExecute.scss";
 import SubmitButton from "../../SubmitButton/SubmitButton";
 import HTTPculateResults from "./HTTPculateResults/HTTPculateResults";
+import AnimatedItem from "../../AnimatedItem";
 
 const SUPPORTED_LIBRARIES = ["axios", "node-fetch", "http"];
 const HTTP_METHODS = [
@@ -29,28 +30,12 @@ function HTTPRequestExecute() {
     const library = form.get("library");
     const method = form.get("method");
     const url = form.get("url");
-    let headers = form.get("headers");
-    let body = form.get("body");
-
-    // Headers parse
-    let parsedHeaders = {};
-    if (headers.trim()) {
-      try {
-        parsedHeaders = JSON.parse(headers);
-      } catch {
-        setError("Headers must be a valid JSON object");
-        setLoading(false);
-        return;
-      }
-    }
 
     try {
       const result = await axios.post("http://localhost:3000/request", {
         library,
         method,
         url,
-        headers: parsedHeaders,
-        body,
         repeat: 1,
       });
       setResponse(result.data);
@@ -62,9 +47,9 @@ function HTTPRequestExecute() {
   };
 
   return (
-    <>
+    <AnimatedItem>
       <form className="form httpculate-form" onSubmit={handleSubmit}>
-        <div className="form-row-2">
+        <div className="form-row">
           <div className="form-group">
             <label>HTTP Library</label>
             <select name="library" defaultValue="axios">
@@ -99,7 +84,7 @@ function HTTPRequestExecute() {
       </form>
       <HTTPculateResults result={response} />
       {error && <div className="error">{error}</div>}
-    </>
+    </AnimatedItem>
   );
 }
 

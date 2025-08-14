@@ -4,6 +4,7 @@ import JSONEditor from "../../Editors/JSONEditor";
 import JSONculateResults from "./JSONculateResults/JSONculateResults";
 import SubmitButton from "../../SubmitButton/SubmitButton";
 import "./JSONculateExecute.scss";
+import AnimatedItem from "../../AnimatedItem";
 
 function JSONculatePanel() {
   const [jsonInput, setJsonInput] = useState(`{
@@ -48,6 +49,7 @@ function JSONculatePanel() {
   }
 }`);
   const [repeat, setRepeat] = useState(1);
+  const [scaleThreshold, setScaleThreshold] = useState(10000);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -59,13 +61,14 @@ function JSONculatePanel() {
     setResult(null);
 
     try {
-      const response = await fetch("http://localhost:5000/parse-json", {
+      const response = await fetch("http://localhost:5000/jsonculate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          json: jsonInput,
-          repeat: parseInt(repeat, 10),
-        }),
+                  body: JSON.stringify({
+            json: jsonInput,
+            repeat: parseInt(repeat, 10),
+            scaleThreshold: parseInt(scaleThreshold, 10),
+          }),
       });
 
       if (!response.ok) {
@@ -85,7 +88,7 @@ function JSONculatePanel() {
   };
 
   return (
-    <>
+    <AnimatedItem>
       <form className="form jsonculate-form" onSubmit={handleSubmit}>
         <div className="content">
           <div className="left-box">
@@ -137,6 +140,21 @@ function JSONculatePanel() {
                 onChange={(e) => setRepeat(e.target.value)}
               />
             </div>
+
+            {/* scale threshold Input */}
+            <div className="form-group">
+              <div className="label-with-info">
+                <label>Ölçeklendirme Eşiği</label>
+                <div className="info-icon" title="Belirli bir tekrar sayısından sonra, sonuçlar ölçeklendirilerek hesaplanır. Ortalama bir bilgisayar kullanıyorsanız varsayılan değeri (10000) kullanmanız önerilir. Güçlü bir bilgisayarınız varsa bu değeri artırabilirsiniz.">ℹ️</div>
+              </div>
+              <input
+                type="number"
+                value={scaleThreshold}
+                min={1000}
+                step={1000}
+                onChange={(e) => setScaleThreshold(e.target.value)}
+              />
+            </div>
             <SubmitButton loading={loading} />
           </div>
 
@@ -146,14 +164,14 @@ function JSONculatePanel() {
             <JSONEditor
               value={jsonInput}
               onChange={(val) => setJsonInput(val)}
-              height="400px"
+              height="480px"
             />
           </div>
         </div>
       </form>
       <JSONculateResults result={result} />
       {error && <div className="error">{error}</div>}
-    </>
+    </AnimatedItem>
   );
 }
 

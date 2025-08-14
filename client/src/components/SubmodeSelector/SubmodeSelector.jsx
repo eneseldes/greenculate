@@ -1,9 +1,6 @@
-import { useState } from 'react';
 import './SubmodeSelector.scss';
 
 function SubmodeSelector({ value, onChange, submodes = [] }) {
-  const [activeView, setActiveView] = useState('execute');
-
   return (
     <div className="submode-selector">
       <div className="submode-list">

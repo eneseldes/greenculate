@@ -1,10 +1,18 @@
+import { memo } from "react";
+import useFocusAfterRender from "../../../../hooks/useFocusAfterRender";
 import "./CodeculateResults.scss";
 
-function CodeculateResults({ result }) {
+const CodeculateResults = memo(function CodeculateResults({ result }) {
+  const containerRef = useFocusAfterRender(result);
+
   return (
     <>
       {result && (
-        <div className="codeculate-results">
+        <div
+          ref={containerRef}
+          className="codeculate-results"
+          tabIndex={-1} // focus alabilmesi için
+        >
           <div className="title">Hesaplama Sonuçları</div>
           <div className="grid">
             {/* Total Emissions */}
@@ -62,9 +70,7 @@ function CodeculateResults({ result }) {
                   <p className="label">Başarı Oranı</p>
                   <p className="value">
                     {result.successful_runs}/{result.repeat} (
-                    {((result.successful_runs / result.repeat) * 100).toFixed(
-                      1
-                    )}
+                    {((result.successful_runs / result.repeat) * 100).toFixed(1)}
                     %)
                   </p>
                 </div>
@@ -122,6 +128,6 @@ function CodeculateResults({ result }) {
       )}
     </>
   );
-}
+});
 
 export default CodeculateResults;

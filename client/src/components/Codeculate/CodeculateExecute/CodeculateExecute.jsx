@@ -2,6 +2,7 @@ import { useState } from "react";
 import CodeculateResults from "./CodeculateResults/CodeculateResults";
 import CodeEditor from "../../Editors/CodeEditor";
 import SubmitButton from "../../SubmitButton/SubmitButton";
+import AnimatedItem from "../../AnimatedItem";
 
 function CodeculateExecute() {
   const [loading, setLoading] = useState(false);
@@ -24,13 +25,15 @@ for i in range(10):
     time.sleep(0.1)`,
     language: "python",
     repeat: 5,
+    scaleThreshold: 10000,
   });
 
   const handleLanguageChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "repeat" ? Number(value) : value,
+      [name]:
+        name === "repeat" || name === "scaleThreshold" ? Number(value) : value,
     }));
   };
 
@@ -48,6 +51,7 @@ for i in range(10):
           code: formData.code,
           language: formData.language,
           repeat: formData.repeat,
+          scaleThreshold: formData.scaleThreshold,
         }),
       });
 
@@ -68,11 +72,11 @@ for i in range(10):
   };
 
   return (
-    <>
+    <AnimatedItem>
       {/* Codeculate Form */}
       <form className="form codeculate-form" onSubmit={handleSubmit}>
         {/* Language and Repeat Row */}
-        <div className="form-row-2">
+        <div className="form-row">
           <div className="form-group">
             <label>Programlama Dili</label>
             <select
@@ -94,7 +98,25 @@ for i in range(10):
               name="repeat"
               value={formData.repeat}
               min={1}
-              max={50}
+              onChange={handleLanguageChange}
+            />
+          </div>
+          <div className="form-group">
+            <div className="label-with-info">
+              <label>Ölçeklendirme Eşiği</label>
+              <div
+                className="info-icon"
+                title="Belirli bir tekrar sayısından sonra, sonuçlar ölçeklendirilerek hesaplanır. Ortalama bir bilgisayar kullanıyorsanız varsayılan değeri (10000) kullanmanız önerilir. Güçlü bir bilgisayarınız varsa bu değeri artırabilirsiniz."
+              >
+                ℹ️
+              </div>
+            </div>
+            <input
+              type="number"
+              name="scaleThreshold"
+              value={formData.scaleThreshold}
+              min={1000}
+              step={1000}
               onChange={handleLanguageChange}
             />
           </div>
@@ -113,7 +135,7 @@ for i in range(10):
       </form>
       <CodeculateResults result={result} />
       {error && <div className="error">{error}</div>}
-    </>
+    </AnimatedItem>
   );
 }
 

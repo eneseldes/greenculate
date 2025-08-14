@@ -1,4 +1,19 @@
 .jsonculate-form {
+  .label-with-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .info-icon {
+      cursor: help;
+      color: #6b7280;
+      font-size: 16px;
+      
+      &:hover {
+        color: #374151;
+      }
+    }
+  }
   .content {
     display: flex;
     gap: 24px;

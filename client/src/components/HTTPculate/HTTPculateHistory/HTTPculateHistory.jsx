@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AnimatedItem from "../../AnimatedItem";
 import "./HTTPculateHistory.scss";
 
 function HTTPRequestHistory() {
@@ -39,7 +40,7 @@ function HTTPRequestHistory() {
   }
 
   return (
-    <div className="httpculate-history">
+    <AnimatedItem className="httpculate-history">
       {history.map((record, index) => (
         <div key={index} className="record">
           <div className="record-row">
@@ -117,7 +118,7 @@ function HTTPRequestHistory() {
           </div>
         </div>
       ))}
-    </div>
+    </AnimatedItem>
   );
 }
 

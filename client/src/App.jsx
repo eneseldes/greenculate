@@ -8,6 +8,7 @@ import CodeculateHistory from "./components/Codeculate/CodeculateHistory/Codecul
 import JSONculateExecute from "./components/JSONculate/JSONculateExecute/JSONculateExecute";
 import JSONculateHistory from "./components/JSONculate/JSONculateHistory/JSONculateHistory";
 import "./App.scss";
+import AnimatedItem from "./components/AnimatedItem";
 
 function App() {
   const modes = [
@@ -64,26 +65,28 @@ function App() {
         modes={modes}
       />
 
-      <main>
-        <header>
-          <h1 className="header-title">greenculate</h1>
-          <p className="header-subtitle">Karbon emisyonunu hesapla</p>
-        </header>
+      <AnimatedItem delay={0.6} duration={1.4} y={-20}>
+        <main>
+          <header>
+            <h1 className="header-title">greenculate</h1>
+            <p className="header-subtitle">Karbon emisyonunu hesapla</p>
+          </header>
 
-        <div className="mode-section">
-          <div className="mode-description">{activeMode.description}</div>
+          <div className="mode-section">
+            <div className="mode-description">{activeMode.description}</div>
 
-          <SubmodeSelector
-            value={activeSubmode}
-            onChange={setActiveSubmode}
-            submodes={submodes}
-          />
+            <SubmodeSelector
+              value={activeSubmode}
+              onChange={setActiveSubmode}
+              submodes={submodes}
+            />
 
-          {activeMode.id === "http" && httpViews[activeSubmode.id]}
-          {activeMode.id === "code" && codeViews[activeSubmode.id]}
-          {activeMode.id === "json" && jsonViews[activeSubmode.id]}
-        </div>
-      </main>
+            {activeMode.id === "http" && httpViews[activeSubmode.id]}
+            {activeMode.id === "code" && codeViews[activeSubmode.id]}
+            {activeMode.id === "json" && jsonViews[activeSubmode.id]}
+          </div>
+        </main>
+      </AnimatedItem>
     </>
   );
 }

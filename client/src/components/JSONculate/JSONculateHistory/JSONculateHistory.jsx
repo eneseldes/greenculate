@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AnimatedItem from "../../AnimatedItem";
 import "./JSONculateHistory.scss";
 
 function JSONParsingHistory() {
@@ -12,7 +13,7 @@ function JSONParsingHistory() {
 
   const fetchHistory = async () => {
     try {
-      const response = await fetch("http://localhost:5000/parse-json/history");
+      const response = await fetch("http://localhost:5000/jsonculate/history");
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -41,7 +42,7 @@ function JSONParsingHistory() {
   }
 
   return (
-    <div className="jsonculate-history">
+    <AnimatedItem className="jsonculate-history">
       {history.map((record) => (
         <div className="record" key={record.id}>
           {/* Header */}
@@ -55,9 +56,9 @@ function JSONParsingHistory() {
             </div>
             <div className="tags">
               <div className="tag-green">{record.iterations}x tekrar</div>
-              {record.is_scaled && (
+              {Boolean(record.is_scaled) && record.scale_threshold != null && (
                 <div className="tag-yellow">
-                  1000 tekrar üzerinden ölçeklendirildi
+                  {record.scale_threshold} tekrar üzerinden ölçeklendirildi
                 </div>
               )}
             </div>
@@ -160,7 +161,7 @@ function JSONParsingHistory() {
           </div>
         </div>
       ))}
-    </div>
+    </AnimatedItem>
   );
 }
 

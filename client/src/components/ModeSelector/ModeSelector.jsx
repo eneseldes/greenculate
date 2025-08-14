@@ -1,4 +1,5 @@
 import { useRef, useEffect } from "react";
+import AnimatedItem from "../AnimatedItem";
 import "./ModeSelector.scss";
 
 function ModeSelector({ value, onChange, modes = [] }) {
@@ -12,7 +13,10 @@ function ModeSelector({ value, onChange, modes = [] }) {
   }, [modes.length]);
 
   return (
-    <div
+    <AnimatedItem
+      delay={0.2}
+      duration={1.4}
+      y={-30}
       className="mode-selector"
       data-active-index={value.index}
       style={{ "--active-index": value.index }}
@@ -38,7 +42,7 @@ function ModeSelector({ value, onChange, modes = [] }) {
           </div>
         </div>
       </div>
-    </div>
+    </AnimatedItem>
   );
 }
 
