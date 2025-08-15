@@ -2,46 +2,41 @@
  * AnimatedItem Bileşeni
  * =================================================================
  * Framer Motion kullanarak animasyonlu geçişler sağlayan wrapper bileşeni.
- * Diğer bileşenleri sarmalayarak fade-in ve slide animasyonları ekler.
+ * AnimatePresence içeride kullanıldığı için giriş/çıkış animasyonları
+ * ana sayfada ek bir sarmalayıcıya gerek kalmadan çalışır.
  */
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-/**
- * AnimatedItem Bileşeni
- * @param {ReactNode} children - Animasyonlu olarak render edilecek içerik
- * @param {number} delay - Animasyon başlama gecikmesi (saniye, varsayılan: 0)
- * @param {number} duration - Animasyon süresi (saniye, varsayılan: 0.6)
- * @param {number} y - Başlangıç Y pozisyonu (piksel, varsayılan: 0)
- * @param {Array} easing - Easing fonksiyonu (varsayılan: [0.4, 0, 0.2, 1])
- * @param {Object} props - Diğer tüm props'lar (className, style, vb.)
- */
 function AnimatedItem({
   children,
   delay = 0,
   duration = 0.6,
-  y = 0,
+  y = 100,
   easing = [0.4, 0, 0.2, 1],
+  exit = { y: 100, opacity: 0 },
+  show = true, // gösterilip gösterilmeyeceğini kontrol etmek için
   ...props
 }) {
   return (
-    <motion.div
-      // Başlangıç durumu
-      initial={{ opacity: 0, y: y }}
-      
-      // Animasyon sonu durumu
-      animate={{ opacity: 1, y: 0 }}
-      
-      transition={{ 
-        delay,
-        duration,
-        ease: easing
-      }}
-      
-      {...props}
-    >
-      {children}
-    </motion.div>
+    <AnimatePresence mode="wait">
+      {show && (
+        <motion.div
+          key="animated-item"
+          initial={{ opacity: 0, y: y }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={exit}
+          transition={{
+            delay,
+            duration,
+            ease: easing
+          }}
+          {...props}
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 

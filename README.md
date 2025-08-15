@@ -39,7 +39,7 @@ otomatik olarak başlatacak ve kullanılabilir adresleri gösterecektir.
 
 Greenculate, sürdürülebilir yazılım geliştirme pratiklerini desteklemek amacıyla geliştirilmiş bir karbon emisyonu hesaplama platformudur. Proje üç ana modülden oluşur:
 
-### 🌐 HTTPculate
+### 🌐 HTTPculate (EKSİK)
 HTTP isteklerinin karbon emisyonunu hesaplar. Farklı HTTP kütüphaneleri (axios, node-fetch, http) kullanarak yapılan isteklerin çevresel etkisini ölçer ve yeşil hosting sağlayıcılarını tespit eder.
 
 ### 💻 Codeculate
@@ -221,6 +221,29 @@ npm run dev
 Frontend http://localhost:5173 adresinde çalışacak.
 
 ## 📖 Kullanım
+
+### 🏠 Ana Sayfa (HomePage) Yapısı ve Kullanımı
+
+Ana sayfa, kullanıcıyı karşılayan interaktif bir arayüze sahiptir. Sayfa üç ana bölümden oluşur:
+
+#### 1. Karşılama Ekranı
+- **Tıklanabilir Başlık**: Sayfanın ortasında kısmında Greenculate logosu ve başlığı
+    - Başlığa tıklandığında emisyon hesabının yapıldığı ana yapıya geçiş yapılır:
+    - 🌐 **HTTPculate**: HTTP isteklerinin emisyonunu hesaplar
+    - 💻 **Codeculate**: Kod çalıştırma emisyonunu hesaplar
+    - 📝 **JSONculate**: JSON işleme emisyonunu hesaplar
+    - Butona tekrar tıklandığında ana sayfaya geri dönülür
+
+#### 2. Ok Butonu
+- Kullanıcıyı toplam emisyon bölümüne yönlendirir
+- Tekrar oka basarak ana sayfaya geri dönülür
+
+#### 3. Toplam Emisyon Bölümü
+- Ok butonuna tıklandığında görüntülenen bölüm
+- İçerik:
+  - Toplam karbon ayak izi değeri
+  - Her modun (HTTP, Code, JSON) ayrı emisyon değerleri
+  - Günlük hayattan eşdeğer karşılaştırmalar
 
 ### 🌐 HTTPculate Kullanımı
 

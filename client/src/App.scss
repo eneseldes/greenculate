@@ -7,9 +7,22 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   box-sizing: border-box;
   background: linear-gradient(135deg, $bg-start 0%, $bg-end 100%);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+}
+
+.link {
+  display: block;
+  text-decoration: none;
+  color: $text-dark;
+  font-weight: 500;
+  font-size: 1.25rem;
+  transition: 0.4s;
 }
 

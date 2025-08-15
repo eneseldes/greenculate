@@ -13,8 +13,9 @@ import "./ModeSelector.scss";
  * @param {Object} value - Aktif seçili mod bilgisi
  * @param {Function} onChange - Mod değiştiğinde çağrılacak callback fonksiyonu
  * @param {Array} modes - Kullanılabilir modların listesi (varsayılan: boş dizi)
+ * @param {boolean} show - Mod seçici gösterilip gösterilmeyeceğini kontrol etmek için
  */
-function ModeSelector({ value, onChange, modes = [] }) {
+function ModeSelector({ value, onChange, modes = [], show = true }) {
   // mode-list genişliği hesaplamak için
   const listRef = useRef(null);
 
@@ -43,12 +44,12 @@ function ModeSelector({ value, onChange, modes = [] }) {
 
   return (
     <AnimatedItem
-      delay={0.2}
-      duration={1.4}
       y={-30}
+      exit={{ y: -100, opacity: 0 }}
       className="mode-selector"
       data-active-index={value.index}
       style={{ "--active-index": value.index }}  // Kayma efekti için dinamik variable
+      show={show}
     >
       <div className="mode-selector-wrapper">
         <div className="mode-list" ref={listRef}>

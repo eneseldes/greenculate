@@ -41,7 +41,7 @@ function HTTPRequestHistory() {
   };
 
   if (loading) {
-    return <div className="loading">Yükleniyor...</div>;
+    return <div className="loading"></div>;
   }
 
   if (error) {
