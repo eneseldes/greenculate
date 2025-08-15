@@ -6,18 +6,18 @@ Greenculate, yazılım geliştirme süreçlerinde ve HTTP isteklerinde oluşan k
 
 ## 📋 İçindekiler
 
-- [Hızlı Başlangıç](#hizli-baslangic)
-- [Proje Hakkında](#proje-hakkinda)
-- [Özellikler](#ozellikler)
-- [Teknoloji Stack'i](#teknoloji-stacki)
-- [Proje Yapısı](#proje-yapisi)
-- [Kurulum](#kurulum)
-- [Çalıştırma](#calistirma)
-- [Kullanım](#kullanim)
-- [API Dokümantasyonu](#api-dokumantasyonu)
-- [Veritabanı Şeması](#veritabani-semasi)
+- [Hızlı Başlangıç](#-hizli-baslangic)
+- [Proje Hakkında](#-proje-hakkinda)
+- [Özellikler](#-ozellikler)
+- [Teknoloji Stack'i](#-teknoloji-stacki)
+- [Proje Yapısı](#-proje-yapisi)
+- [Kurulum](#-kurulum)
+- [Çalıştırma](#-calistirma)
+- [Kullanım](#-kullanim)
+- [API Dokümantasyonu](#-api-dokumantasyonu)
+- [Veritabanı Şeması](#-veritabani-semasi)
 
-## 🚀 Hızlı Başlangıç {#hizli-baslangic}
+## 🚀 Hızlı Başlangıç
 
 Projeyi geliştirme modunda çalıştırmak için ana dizinde bulunan `start_greenculate.bat` dosyasını çalıştırın:
 
@@ -34,7 +34,7 @@ otomatik olarak başlatacak ve kullanılabilir adresleri gösterecektir.
 
 > ⚠️ Not: Projeyi çalıştırmadan önce [Kurulum](#kurulum) adımlarını tamamladığınızdan emin olun.
 
-## 🎯 Proje Hakkında {#proje-hakkinda}
+## 🎯 Proje Hakkında
 
 Greenculate, sürdürülebilir yazılım geliştirme pratiklerini desteklemek amacıyla geliştirilmiş bir karbon emisyonu hesaplama platformudur. Proje üç ana modülden oluşur:
 
@@ -47,7 +47,7 @@ Programlama dillerinde yazılan kodların karbon emisyonunu ölçer. Python, Jav
 ### 📝 JSONculate
 JSON verilerinin farklı parser kütüphaneleri (json, orjson, ujson) ile işlenmesi sırasında oluşan karbon emisyonunu karşılaştırır ve en verimli parser'ı belirler.
 
-## ✨ Özellikler {#ozellikler}
+## ✨ Özellikler
 
 ### 🔧 Teknik Özellikler
 - **Çoklu Backend Desteği**: Python Flask ve Node.js Express backend'leri
@@ -72,7 +72,7 @@ JSON verilerinin farklı parser kütüphaneleri (json, orjson, ujson) ile işlen
 - **Detaylı Raporlama**: Sistem bilgileri ve performans metrikleri
 - **İstatistiksel Analiz**: Kütüphane bazlı performans karşılaştırmaları
 
-## 🛠 Teknoloji Stack'i {#teknoloji-stacki}
+## 🛠 Teknoloji Stack'i
 
 ### Frontend
 - **React 19.1.0**: Modern UI framework
@@ -104,7 +104,7 @@ JSON verilerinin farklı parser kütüphaneleri (json, orjson, ujson) ile işlen
 - **Nodemon**: Otomatik yeniden başlatma
 - **Git**: Versiyon kontrolü
 
-## 📁 Proje Yapısı {#proje-yapisi}
+## 📁 Proje Yapısı
 
 ```
 greenculate/
@@ -155,7 +155,7 @@ greenculate/
 └── README.md                       # Bu dosya
 ```
 
-## 🚀 Kurulum {#kurulum}
+## 🚀 Kurulum
 
 ### Gereksinimler
 - **Node.js** 18.0.0 veya üzeri
@@ -194,7 +194,7 @@ cd ../node
 npm install
 ```
 
-## 🏃‍♂️ Çalıştırma {#calistirma}
+## 🏃‍♂️ Çalıştırma
 
 ### Geliştirme Modunda Çalıştırma
 
@@ -219,7 +219,7 @@ npm run dev
 ```
 Frontend http://localhost:5173 adresinde çalışacak.
 
-## 📖 Kullanım {#kullanim}
+## 📖 Kullanım
 
 ### 🏠 Ana Sayfa (HomePage) Yapısı ve Kullanımı
 
@@ -292,7 +292,7 @@ Ana sayfa, kullanıcıyı karşılayan interaktif bir arayüze sahiptir. Sayfa �
    - Sıcak duş eşdeğeri
    - Uçak yolculuğu eşdeğeri
 
-## 🔌 API Dokümantasyonu {#kullanim}
+## 🔌 API Dokümantasyonu
 
 ### Python Backend API (Port 5000)
 
@@ -343,7 +343,7 @@ Kütüphane bazlı istatistikleri döndürür.
 ```
 ???
 
-## 🗄️ Veritabanı Şeması {#veritabani-semasi}
+## 🗄️ Veritabanı Şeması
 
 ### Codeculate Veritabanı (codeculate-reports.db)
 
@@ -408,8 +408,6 @@ CREATE TABLE http_request_reports (
 ## 🔮 Gelecek Planları
 ...
 
-## 👥 Katkıda Bulunanlar
-- [Proje Sahibi](https://github.com/eneseldes)
 
 ## 🙏 Teşekkürler
 
