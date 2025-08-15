@@ -6,19 +6,18 @@ Greenculate, yazılım geliştirme süreçlerinde ve HTTP isteklerinde oluşan k
 
 ## 📋 İçindekiler
 
-- [Hızlı Başlangıç](#hızlı-başlangıç)
-- [Proje Hakkında](#proje-hakkında)
-- [Özellikler](#özellikler)
+- [Hızlı Başlangıç](#hizli-baslangic)
+- [Proje Hakkında](#proje-hakkinda)
+- [Özellikler](#ozellikler)
 - [Teknoloji Stack'i](#teknoloji-stacki)
-- [Proje Yapısı](#proje-yapısı)
+- [Proje Yapısı](#proje-yapisi)
 - [Kurulum](#kurulum)
-- [Kullanım](#kullanım)
-- [API Dokümantasyonu](#api-dokümantasyonu)
-- [Veritabanı Şeması](#veritabanı-şeması)
-- [Katkıda Bulunma](#katkıda-bulunma)
-- [Lisans](#lisans)
+- [Çalıştırma](#calistirma)
+- [Kullanım](#kullanim)
+- [API Dokümantasyonu](#api-dokumantasyonu)
+- [Veritabanı Şeması](#veritabani-semasi)
 
-## 🚀 Hızlı Başlangıç
+## 🚀 Hızlı Başlangıç {#hizli-baslangic}
 
 Projeyi geliştirme modunda çalıştırmak için ana dizinde bulunan `start_greenculate.bat` dosyasını çalıştırın:
 
@@ -35,7 +34,7 @@ otomatik olarak başlatacak ve kullanılabilir adresleri gösterecektir.
 
 > ⚠️ Not: Projeyi çalıştırmadan önce [Kurulum](#kurulum) adımlarını tamamladığınızdan emin olun.
 
-## 🎯 Proje Hakkında
+## 🎯 Proje Hakkında {#proje-hakkinda}
 
 Greenculate, sürdürülebilir yazılım geliştirme pratiklerini desteklemek amacıyla geliştirilmiş bir karbon emisyonu hesaplama platformudur. Proje üç ana modülden oluşur:
 
@@ -48,7 +47,7 @@ Programlama dillerinde yazılan kodların karbon emisyonunu ölçer. Python, Jav
 ### 📝 JSONculate
 JSON verilerinin farklı parser kütüphaneleri (json, orjson, ujson) ile işlenmesi sırasında oluşan karbon emisyonunu karşılaştırır ve en verimli parser'ı belirler.
 
-## ✨ Özellikler
+## ✨ Özellikler {#ozellikler}
 
 ### 🔧 Teknik Özellikler
 - **Çoklu Backend Desteği**: Python Flask ve Node.js Express backend'leri
@@ -73,7 +72,7 @@ JSON verilerinin farklı parser kütüphaneleri (json, orjson, ujson) ile işlen
 - **Detaylı Raporlama**: Sistem bilgileri ve performans metrikleri
 - **İstatistiksel Analiz**: Kütüphane bazlı performans karşılaştırmaları
 
-## 🛠 Teknoloji Stack'i
+## 🛠 Teknoloji Stack'i {#teknoloji-stacki}
 
 ### Frontend
 - **React 19.1.0**: Modern UI framework
@@ -105,7 +104,7 @@ JSON verilerinin farklı parser kütüphaneleri (json, orjson, ujson) ile işlen
 - **Nodemon**: Otomatik yeniden başlatma
 - **Git**: Versiyon kontrolü
 
-## 📁 Proje Yapısı
+## 📁 Proje Yapısı {#proje-yapisi}
 
 ```
 greenculate/
@@ -156,7 +155,7 @@ greenculate/
 └── README.md                       # Bu dosya
 ```
 
-## 🚀 Kurulum
+## 🚀 Kurulum {#kurulum}
 
 ### Gereksinimler
 - **Node.js** 18.0.0 veya üzeri
@@ -195,7 +194,7 @@ cd ../node
 npm install
 ```
 
-## 🏃‍♂️ Çalıştırma
+## 🏃‍♂️ Çalıştırma {#calistirma}
 
 ### Geliştirme Modunda Çalıştırma
 
@@ -220,7 +219,7 @@ npm run dev
 ```
 Frontend http://localhost:5173 adresinde çalışacak.
 
-## 📖 Kullanım
+## 📖 Kullanım {#kullanim}
 
 ### 🏠 Ana Sayfa (HomePage) Yapısı ve Kullanımı
 
@@ -293,7 +292,7 @@ Ana sayfa, kullanıcıyı karşılayan interaktif bir arayüze sahiptir. Sayfa �
    - Sıcak duş eşdeğeri
    - Uçak yolculuğu eşdeğeri
 
-## 🔌 API Dokümantasyonu
+## 🔌 API Dokümantasyonu {#kullanim}
 
 ### Python Backend API (Port 5000)
 
@@ -344,7 +343,7 @@ Kütüphane bazlı istatistikleri döndürür.
 ```
 ???
 
-## 🗄️ Veritabanı Şeması
+## 🗄️ Veritabanı Şeması {#veritabani-semasi}
 
 ### Codeculate Veritabanı (codeculate-reports.db)
 
@@ -406,50 +405,10 @@ CREATE TABLE http_request_reports (
 );
 ```
 
-## 🔧 Konfigürasyon
-
-### Python Backend Konfigürasyonu
-
-`backend/python/config/logging_config.py` dosyasında log seviyelerini ayarlayabilirsiniz.
-
-### Node.js Backend Konfigürasyonu
-
-`backend/node/server.js` dosyasında port ve diğer ayarları değiştirebilirsiniz.
-
-### Frontend Konfigürasyonu
-
-`client/vite.config.js` dosyasında build ayarlarını özelleştirebilirsiniz.
-
-## 📈 Performans Optimizasyonları
-
-### Ölçeklendirme Algoritması
-- Büyük tekrar sayıları için akıllı ölçeklendirme
-- Sistem kaynaklarını koruma
-- Hassas sonuçlar için matematiksel interpolasyon
-
-### Cache Sistemi
-- Benzer kod/JSON için önbellekleme
-- Veritabanı sorgu optimizasyonu
-- Hash tabanlı hızlı arama
-
-### Yeşil Hosting Kontrolü
-- The Green Web Foundation API entegrasyonu
-- DNS tabanlı hosting kontrolü
-- Önbellekli yeşil hosting verileri
-
 ## 🔮 Gelecek Planları
-
-- [ ] Daha fazla programlama dili desteği
-- [ ] Gerçek zamanlı emisyon izleme
-- [ ] Ekip bazlı emisyon takibi
-- [ ] CI/CD pipeline entegrasyonu
-- [ ] Mobil uygulama
-- [ ] API rate limiting
-- [ ] Daha gelişmiş analitik dashboard
-- [ ] Machine learning tabanlı emisyon tahmini
+...
 
 ## 👥 Katkıda Bulunanlar
-
 - [Proje Sahibi](https://github.com/eneseldes)
 
 ## 🙏 Teşekkürler
