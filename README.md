@@ -6,16 +6,16 @@ Greenculate, yazılım geliştirme süreçlerinde ve HTTP isteklerinde oluşan k
 
 ## 📋 İçindekiler
 
-- [Hızlı Başlangıç](#-hizli-baslangic)
-- [Proje Hakkında](#-proje-hakkinda)
-- [Özellikler](#-ozellikler)
-- [Teknoloji Stack'i](#-teknoloji-stacki)
-- [Proje Yapısı](#-proje-yapisi)
-- [Kurulum](#-kurulum)
-- [Çalıştırma](#-calistirma)
-- [Kullanım](#-kullanim)
-- [API Dokümantasyonu](#-api-dokumantasyonu)
-- [Veritabanı Şeması](#-veritabani-semasi)
+- [🚀 Hızlı Başlangıç](#-hızlı-başlangıç)
+- [🎯 Proje Hakkında](#-proje-hakkında)
+- [✨ Özellikler](#-özellikler)
+- [🛠 Teknoloji Stack'i](#-teknoloji-stacki)
+- [📁 Proje Yapısı](#-proje-yapısı)
+- [🚀 Kurulum](#-kurulum)
+- [🏃‍♂️ Çalıştırma](#-çalıştırma)
+- [📖 Kullanım](#-kullanım)
+- [🔌 API Dokümantasyonu](#-api-dokümantasyonu)
+- [🗄️ Veritabanı Şeması](#-veritabanı-şeması)
 
 ## 🚀 Hızlı Başlangıç
 
