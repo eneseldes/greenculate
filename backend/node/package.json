@@ -1,5 +1,5 @@
 {
-  "name": "carbon-tracker",
+  "name": "backend-node",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "nodemon": "^3.1.10",
     "postcss": "^8.5.6",
     "postcss-import": "^16.1.1"
   }
