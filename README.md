@@ -59,19 +59,6 @@ JSON verilerinin farklı parser kütüphaneleri (json, orjson, ujson) ile işlen
 - **Cache Sistemi**: Benzer işlemler için önbellekleme
 - **Yeşil Hosting Kontrolü**: The Green Web Foundation API entegrasyonu
 
-### 🎨 Kullanıcı Deneyimi
-- **Modern UI/UX**: React ve Framer Motion ile animasyonlu arayüz
-- **Responsive Tasarım**: Tüm cihazlarda uyumlu görünüm
-- **Gerçek Zamanlı Sonuçlar**: Anlık emisyon hesaplama ve görselleştirme
-- **Geçmiş Kayıtları**: Tüm işlemlerin detaylı geçmişi
-- **Karşılaştırmalı Analiz**: Farklı yöntemlerin performans karşılaştırması
-
-### 📊 Analitik Özellikler
-- **Toplam Emisyon Takibi**: Tüm modüllerin toplam karbon ayak izi
-- **Eşdeğer Hesaplamalar**: Günlük hayattan karşılaştırmalar (araba kullanımı, hamburger tüketimi vb.)
-- **Detaylı Raporlama**: Sistem bilgileri ve performans metrikleri
-- **İstatistiksel Analiz**: Kütüphane bazlı performans karşılaştırmaları
-
 ## 🛠 Teknoloji Stack'i
 
 ### Frontend
